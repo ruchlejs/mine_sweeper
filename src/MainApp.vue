@@ -1,14 +1,17 @@
 <template>
-    <BandeauComponent />
+    <MainBanner />
+    <GameConteneur />
 </template>
 
 <script>
-import BandeauComponent from './components/BandeauComponent.vue'
+import MainBanner from './components/MainBanner.vue'
+import GameConteneur from './components/GameConteneur.vue';
 
 export default {
     name: 'MainComponent',
     components: {
-        BandeauComponent
+        MainBanner,
+        GameConteneur
     }
 }
 
@@ -16,11 +19,11 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
 }
 </style>
