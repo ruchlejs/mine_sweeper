@@ -1,13 +1,13 @@
 <template>
     <div class="game-container">
         <div class="gameBar">
-            <p>
-                time
+            <p id="time-spend">
+                {{ formattedTime }}
             </p>
             <p id="Mine-left">
                 Mine left
             </p>
-            <p>
+            <p id="restart-button">
                 restart
             </p>
         </div>
@@ -16,13 +16,67 @@
         </p>
     </div>
 
+    <button @click="console.log('bouton test')">
+        bouton test
+    </button>
+
+    <button @click="startTimer()">
+        lancer timer
+    </button>
+
+    <button @click="stopTimer()">
+        stop timer
+    </button>
 
 </template>
 
 <script>
 
 export default {
-    name: 'gameContainer'
+    name: 'gameContainer',
+    data() {
+        return {
+            timer: 0,
+            start: null,
+        }
+    },
+    methods: {
+        startTimer() {
+            if (this.start === null) {
+                this.start = setInterval(() => {
+                    this.timer++;
+                }, 1000);
+            }
+        },
+
+        stopTimer() {
+            clearInterval(this.start);
+            this.start = null;
+        },
+
+        beforeDestroy() {
+            if (this.start) {
+                clearInterval(this.start);
+            }
+        },
+
+        getFormattedTime() {
+            let min = Math.floor(this.timer / 60);
+            let sec = this.timer % 60;
+
+            return `${this.pad(min)}:${this.pad(sec)}`;
+        },
+
+        pad(number) {
+            return number < 10 ? `0${number}` : number;
+        }
+    },
+
+    computed: {
+        formattedTime() {
+            return this.getFormattedTime();
+        }
+    }
 }
 </script>
 
@@ -39,15 +93,24 @@ export default {
     border: 1px solid;
 }
 
+
+.game {
+    color: purple;
+    border: 1px solid;
+    margin-top: 0px;
+}
+
 #Mine-left {
-    color: aqua;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
 }
 
-.game {
-    color: purple;
-    border: 1px solid;
+#time-spend {
+    margin-left: 10px;
+}
+
+#restart-button {
+    margin-right: 10px;
 }
 </style>
