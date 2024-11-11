@@ -33,6 +33,10 @@
         </option>
     </select>
 
+    <div class="cell" @contextmenu="handleRightClick">
+        <img v-if="rightClick" class="flag" alt="test right click" src="../assets/flag.webp">
+    </div>
+
 </template>
 
 <script>
@@ -49,6 +53,7 @@ export default {
             timer: 0,
             start: null,
             mine_left: 0,
+            rightClick: false,
 
             size: 10,
             possible_size: [10, 11]
@@ -83,6 +88,11 @@ export default {
 
         pad(number) {
             return number < 10 ? `0${number}` : number;
+        },
+
+        handleRightClick() {
+            event.preventDefault(event);
+            this.rightClick = true;
         }
     },
 
@@ -126,5 +136,16 @@ export default {
 
 #restart-button {
     margin-right: 10px;
+}
+
+.flag {
+    width: 40px;
+    height: 40px;
+}
+
+.cell {
+    width: 40px;
+    height: 40px;
+    border: 10px solid black;
 }
 </style>
