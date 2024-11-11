@@ -11,10 +11,10 @@
                 restart
             </p>
         </div>
-        <GameGrid />
+        <GameGrid :size="size" />
     </div>
 
-    <button @click="console.log('bouton test')">
+    <button @click="console.log(size)">
         bouton test
     </button>
 
@@ -25,6 +25,13 @@
     <button @click="stopTimer()">
         stop timer
     </button>
+
+    <label for="chosenSize">Choose a size: </label>
+    <select id="chosenSize" v-model="size">
+        <option v-for="gridSize in possible_size" :key="gridSize" :value="gridSize">
+            {{ gridSize }}x{{ gridSize }}
+        </option>
+    </select>
 
 </template>
 
@@ -42,6 +49,9 @@ export default {
             timer: 0,
             start: null,
             mine_left: 0,
+
+            size: 10,
+            possible_size: [10, 11]
         }
     },
     methods: {

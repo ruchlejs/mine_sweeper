@@ -1,11 +1,10 @@
 <template>
-    <div class="game-grid">
+    <div class="game-grid" :style="{ gridTemplateColumns: `repeat(${size}, 1fr)` }">
         <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
-
             <div v-for="(col, colIndex) in row" :key="colIndex" class="grid-col"
                 @click="cellReveal(rowIndex, colIndex)">
-                {{ rowIndex }}x{{ colIndex }}
                 <span v-if="col.revealed"> revelead</span>
+                <span v-else>{{ rowIndex }}x{{ colIndex }}</span>
             </div>
         </div>
 
@@ -15,10 +14,11 @@
 <script>
 export default {
     name: 'GameGrid',
+    props: {
+        size: Number,
+    },
     data() {
         return {
-            row: 10,
-            col: 10,
             grid: []
         }
     },
@@ -27,10 +27,16 @@ export default {
         this.CreateGrid();
     },
 
+    watch: {
+        size() {
+            this.CreateGrid()
+        }
+    },
+
     methods: {
         CreateGrid() {
-            this.grid = Array.from({ length: this.row }, () =>
-                Array.from({ length: this.col }, () =>
+            this.grid = Array.from({ length: this.size }, () =>
+                Array.from({ length: this.size }, () =>
                 ({
                     revealed: false,
                 }))
@@ -51,19 +57,19 @@ export default {
 <style scoped>
 .game-grid {
     display: grid;
-    grid-template-columns: repeat(10, 40px);
-    grid-template-rows: repeat(10, 40px);
+    /* grid-template-columns: repeat(10, 1fr); */
+    /* grid-template-rows: repeat(10, 1fr); */
     /* gap: 2px; */
 }
 
 .grid-col {
-    width: 40px;
-    height: 40px;
+    /* width: 40px;
+    height: 40px; */
     border: 1px solid black;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    /* cursor: pointer; */
+    cursor: pointer;
 }
 </style>
