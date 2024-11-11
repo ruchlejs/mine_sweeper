@@ -5,15 +5,13 @@
                 {{ formattedTime }}
             </p>
             <p id="Mine-left">
-                Mine left
+                Mine left: {{ mine_left }}
             </p>
             <p id="restart-button">
                 restart
             </p>
         </div>
-        <p class='game'>
-            game
-        </p>
+        <GameGrid />
     </div>
 
     <button @click="console.log('bouton test')">
@@ -31,13 +29,19 @@
 </template>
 
 <script>
+import GameGrid from './GameGrid.vue';
+
 
 export default {
     name: 'gameContainer',
+    components: {
+        GameGrid,
+    },
     data() {
         return {
             timer: 0,
             start: null,
+            mine_left: 0,
         }
     },
     methods: {
