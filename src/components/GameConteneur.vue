@@ -11,7 +11,7 @@
                 restart
             </p>
         </div>
-        <GameGrid :size="size" />
+        <GameGrid :size="size" :mine_left="mine_left" />
     </div>
 
     <button @click="console.log(size)">
@@ -52,7 +52,7 @@ export default {
         return {
             timer: 0,
             start: null,
-            mine_left: 0,
+            mine_left: 10,
             rightClick: false,
 
             size: 10,
