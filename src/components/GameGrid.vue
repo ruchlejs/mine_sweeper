@@ -57,7 +57,12 @@ export default {
             }
             const cell = this.grid[row][col];
             if (!cell.revealed) {
-                cell.revealed = true;
+                if (!cell.mine) {
+                    this.propagation_reveal(row, col)
+                }
+                else {
+                    cell.revealed = true;
+                }
             }
         },
 
@@ -76,7 +81,6 @@ export default {
                             if (!cell.mine) {
                                 mine_to_place--;
                                 cell.mine = true;
-                                cell.revealed = true;
                             }
                         }
                     })
@@ -100,8 +104,6 @@ export default {
 
                             if (newRow >= 0 && newRow < this.size && newCol >= 0 && newCol < this.size) {
                                 this.grid[newRow][newCol].adjacent_mine++;
-
-                                this.grid[newRow][newCol].revealed = true
                             }
                         });
                     }
@@ -114,7 +116,36 @@ export default {
             if (cell.revealed && cell.mine) return "mine";
             if (cell.revealed && !cell.mine) return cell.adjacent_mine;
             return `${row}x${col}`
+        },
 
+        propagation_reveal(row, col) {
+            const cell = this.grid[row][col];
+            cell.revealed = true;
+            if (cell.adjacent_mine === 0) {
+
+                const directions = [
+                    [-1, 0],
+                    [0, -1], [0, 1],
+                    [1, 0]
+                ];
+
+                directions.forEach(([dRow, dCol]) => {
+                    const newRow = row + dRow;
+                    const newCol = col + dCol;
+
+                    if (newRow >= 0 && newRow < this.size && newCol >= 0 && newCol < this.size) {
+                        const newCell = this.grid[newRow][newCol];
+                        if (!newCell.revealed) {
+                            if (newCell.adjacent_mine === 0) {
+                                this.propagation_reveal(newRow, newCol);
+                            }
+                            else {
+                                newCell.revealed = true;
+                            }
+                        }
+                    }
+                });
+            }
         }
     }
 
