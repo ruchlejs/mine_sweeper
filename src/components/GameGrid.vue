@@ -7,13 +7,9 @@
             </div>
         </div>
 
-        <p @click="PlaceMines(); compute_adjacent_mine()">
-            place mines
+        <p @click="compute_adjacent_mine()">
+            compute adjacent mines
         </p>
-
-        <P>
-            reveal mine next cells
-        </P>
     </div>
 </template>
 
@@ -26,7 +22,8 @@ export default {
     },
     data() {
         return {
-            grid: []
+            grid: [],
+            start: false,
         }
     },
 
@@ -53,24 +50,29 @@ export default {
         },
 
         cellReveal(row, col) {
+            if (!this.start) {
+                this.PlaceMines(row, col);
+                this.compute_adjacent_mine();
+                this.start = true;
+            }
             const cell = this.grid[row][col];
             if (!cell.revealed) {
                 cell.revealed = true;
             }
         },
 
-        PlaceMines() {
+        PlaceMines(started_row, started_col) {
             let mine_to_place = this.mine_left;
             const gridArea = this.size * this.size;
             const mineProbability = this.mine_left / gridArea;
 
             while (mine_to_place > 0) {
-                this.grid.forEach((row) => {
-                    row.forEach((cell) => {
+                this.grid.forEach((row, rowIndex) => {
+                    row.forEach((cell, colIndex) => {
                         if (!mine_to_place) return;
 
                         let random = Math.random() < mineProbability;
-                        if (random) {
+                        if (random && started_row != rowIndex && started_col != colIndex) {
                             if (!cell.mine) {
                                 mine_to_place--;
                                 cell.mine = true;
