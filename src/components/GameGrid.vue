@@ -1,8 +1,8 @@
 <template>
     <div class="game-grid" :style="{ gridTemplateColumns: `repeat(${size}, 1fr)` }">
         <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
-            <div v-for="(col, colIndex) in row" :key="colIndex" class="grid-col"
-                @click="cellReveal(rowIndex, colIndex)">
+            <div v-for="(col, colIndex) in row" :key="colIndex" class="grid-col" @click="cellReveal(rowIndex, colIndex)"
+                @contextmenu="putFlag(rowIndex, colIndex)">
                 {{ cellContent(rowIndex, colIndex) }}
             </div>
         </div>
@@ -45,6 +45,7 @@ export default {
                     revealed: false,
                     mine: false,
                     adjacent_mine: 0,
+                    flag: false,
                 }))
             );
         },
@@ -56,11 +57,13 @@ export default {
                 this.start = true;
             }
             const cell = this.grid[row][col];
+            if (cell.flag) return;
             if (!cell.revealed) {
                 if (!cell.mine) {
                     this.propagation_reveal(row, col)
                 }
                 else {
+                    // alert("Game over");
                     cell.revealed = true;
                 }
             }
@@ -113,6 +116,7 @@ export default {
 
         cellContent(row, col) {
             const cell = this.grid[row][col]
+            if (!cell.revealed && cell.flag && this.start) return 'flag';
             if (cell.revealed && cell.mine) return "mine";
             if (cell.revealed && !cell.mine) return cell.adjacent_mine;
             return `${row}x${col}`
@@ -146,7 +150,21 @@ export default {
                     }
                 });
             }
+        },
+
+        putFlag(row, col) {
+            event.preventDefault(event);
+            const cell = this.grid[row][col];
+            if (this.start) {
+                if (cell.flag) {
+                    cell.flag = false;
+                }
+                else {
+                    cell.flag = true;
+                }
+            }
         }
+
     }
 
 }
