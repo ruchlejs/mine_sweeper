@@ -11,7 +11,7 @@
                 restart
             </p>
         </div>
-        <GameGrid :size="size" :mine_left="mine_left" />
+        <GameGrid ref="GameGridRef" :size="size" :mine_left="mine_left" />
     </div>
 
     <button @click="console.log(size)">
@@ -24,6 +24,10 @@
 
     <button @click="stopTimer()">
         stop timer
+    </button>
+
+    <button @click="restartGame()">
+        restart timer
     </button>
 
     <label for="chosenSize">Choose a size: </label>
@@ -73,6 +77,11 @@ export default {
             this.start = null;
         },
 
+        restartTimer() {
+            this.stopTimer();
+            this.timer = 0;
+        },
+
         beforeDestroy() {
             if (this.start) {
                 clearInterval(this.start);
@@ -93,7 +102,13 @@ export default {
         handleRightClick() {
             event.preventDefault(event);
             this.rightClick = true;
-        }
+        },
+
+        restartGame() {
+            this.restartTimer();
+            this.$refs.GameGridRef.CreateGrid();
+            this.$refs.GameGridRef.start = false;
+        },
     },
 
     computed: {
