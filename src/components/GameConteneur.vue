@@ -11,8 +11,8 @@
                 restart
             </button>
         </div>
-        <GameGrid ref="GameGridRef" :size="size" :mine_left="mine_left" @start-timer="startTimer"
-            @mine-plus="increseadMineLeft" @mine-minus="decreseadMineLeft" />
+        <GameGrid ref="GameGridRef" :size="size" :initialMineCount="initialMineCount" :mine_left="mine_left"
+            @start-timer="startTimer" @mine-plus="increseadMineLeft" @mine-minus="decreseadMineLeft" />
     </div>
 
 
@@ -22,10 +22,6 @@
             {{ gridSize }}x{{ gridSize }}
         </option>
     </select>
-
-    <div class="cell" @contextmenu="handleRightClick">
-        <img v-if="rightClick" class="flag" alt="test right click" src="../assets/flag.webp">
-    </div>
 
 </template>
 
@@ -39,10 +35,13 @@ export default {
         GameGrid,
     },
     data() {
+        const initialMineCount = 10;
+
         return {
             timer: 0,
             start: null,
-            mine_left: 10,
+            mine_left: initialMineCount,
+            initialMineCount,
             rightClick: false,
 
             size: 10,
@@ -92,6 +91,7 @@ export default {
 
         restartGame() {
             this.restartTimer();
+            this.mine_left = this.initialMineCount;
             this.$refs.GameGridRef.CreateGrid();
             this.$refs.GameGridRef.start = false;
         },

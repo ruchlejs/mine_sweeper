@@ -16,6 +16,11 @@
             </div>
         </div>
     </div>
+    <div>
+        <button @click="victoryVerification">
+            test
+        </button>
+    </div>
 </template>
 
 <script>
@@ -30,12 +35,14 @@ export default {
     },
     props: {
         size: Number,
+        initialMineCount: Number,
         mine_left: Number,
     },
     data() {
         return {
             grid: [],
             start: false,
+            mine_loc: [],
         }
     },
 
@@ -98,6 +105,8 @@ export default {
                             if (!cell.mine) {
                                 mine_to_place--;
                                 cell.mine = true;
+
+                                this.mine_loc.push([rowIndex, colIndex])
                             }
                         }
                     })
@@ -181,6 +190,25 @@ export default {
                     }
                 }
 
+            }
+        },
+
+        victoryVerification() {
+            let number_of_mine = this.initialMineCount
+            this.mine_loc.forEach(([row, col]) => {
+                console.log("row : " + row)
+                console.log("col : " + col)
+
+                if (this.grid[row][col].flag) {
+                    number_of_mine--;
+                }
+            })
+
+            if (!number_of_mine) {
+                console.log("victory")
+            }
+            else {
+                console.log("some flag are missplaced")
             }
         }
 
