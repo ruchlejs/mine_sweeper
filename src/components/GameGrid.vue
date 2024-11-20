@@ -6,10 +6,6 @@
                 {{ cellContent(rowIndex, colIndex) }}
             </div>
         </div>
-
-        <p @click="compute_adjacent_mine()">
-            compute adjacent mines
-        </p>
     </div>
 </template>
 
@@ -54,6 +50,7 @@ export default {
             if (!this.start) {
                 this.PlaceMines(row, col);
                 this.compute_adjacent_mine();
+                this.$emit("start-timer")
                 this.start = true;
             }
             const cell = this.grid[row][col];
@@ -158,8 +155,10 @@ export default {
             if (this.start) {
                 if (cell.flag) {
                     cell.flag = false;
+                    this.$emit("mine-plus")
                 }
                 else {
+                    this.$emit("mine-minus")
                     cell.flag = true;
                 }
             }
@@ -173,14 +172,15 @@ export default {
 <style scoped>
 .game-grid {
     display: grid;
-    /* grid-template-columns: repeat(10, 1fr); */
+    /* grid-template-columns: 1fr repeat(8, 40px) 1fr; */
     /* grid-template-rows: repeat(10, 1fr); */
     /* gap: 2px; */
 }
 
 .grid-col {
-    /* width: 40px;
-    height: 40px; */
+    aspect-ratio: 1;
+    /* width: 40px;*/
+    /* height: 40px; */
     border: 1px solid black;
 
     display: flex;
