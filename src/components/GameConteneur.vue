@@ -7,29 +7,14 @@
             <p id="Mine-left">
                 Mine left: {{ mine_left }}
             </p>
-            <p id="restart-button">
+            <button id="restart-button" @click="restartGame()">
                 restart
-            </p>
+            </button>
         </div>
         <GameGrid ref="GameGridRef" :size="size" :mine_left="mine_left" @start-timer="startTimer"
             @mine-plus="increseadMineLeft" @mine-minus="decreseadMineLeft" />
     </div>
 
-    <button @click="console.log(size)">
-        bouton test
-    </button>
-
-    <button @click="startTimer()">
-        lancer timer
-    </button>
-
-    <button @click="stopTimer()">
-        stop timer
-    </button>
-
-    <button @click="restartGame()">
-        restart timer
-    </button>
 
     <label for="chosenSize">Choose a size: </label>
     <select id="chosenSize" v-model="size">
