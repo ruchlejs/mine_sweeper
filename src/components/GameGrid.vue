@@ -3,15 +3,31 @@
         <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
             <div v-for="(col, colIndex) in row" :key="colIndex" class="grid-col" @click="cellReveal(rowIndex, colIndex)"
                 @contextmenu="putFlag(rowIndex, colIndex)">
-                {{ cellContent(rowIndex, colIndex) }}
+                <FlagImage v-if="cellContent(rowIndex, colIndex) === 'flag'"
+                    :style="{ height: '100%', width: '100%' }" />
+                <MineImage v-else-if="cellContent(rowIndex, colIndex) === 'mine'"
+                    :style="{ height: '100%', width: '100%' }" />
+                <div v-else>
+                    {{ cellContent(rowIndex, colIndex) }}
+                </div>
+
+
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import FlagImage from './FlagImage.vue';
+import MineImage from './MineImage.vue';
+
 export default {
     name: 'GameGrid',
+    components: {
+        FlagImage,
+        MineImage,
+    },
     props: {
         size: Number,
         mine_left: Number,
@@ -62,6 +78,7 @@ export default {
                 else {
                     // alert("Game over");
                     cell.revealed = true;
+                    console.log("game over")
                 }
             }
         },
