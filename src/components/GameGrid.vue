@@ -170,14 +170,17 @@ export default {
             event.preventDefault(event);
             const cell = this.grid[row][col];
             if (this.start) {
-                if (cell.flag) {
-                    cell.flag = false;
-                    this.$emit("mine-plus")
+                if (!cell.revealed) {
+                    if (cell.flag) {
+                        cell.flag = false;
+                        this.$emit("mine-plus")
+                    }
+                    else {
+                        this.$emit("mine-minus")
+                        cell.flag = true;
+                    }
                 }
-                else {
-                    this.$emit("mine-minus")
-                    cell.flag = true;
-                }
+
             }
         }
 
