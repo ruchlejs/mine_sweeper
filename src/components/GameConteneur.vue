@@ -11,7 +11,8 @@
                 restart
             </p>
         </div>
-        <GameGrid ref="GameGridRef" :size="size" :mine_left="mine_left" />
+        <GameGrid ref="GameGridRef" :size="size" :mine_left="mine_left" @start-timer="startTimer"
+            @mine-plus="increseadMineLeft" @mine-minus="decreseadMineLeft" />
     </div>
 
     <button @click="console.log(size)">
@@ -109,6 +110,14 @@ export default {
             this.$refs.GameGridRef.CreateGrid();
             this.$refs.GameGridRef.start = false;
         },
+
+        increseadMineLeft() {
+            this.mine_left++;
+        },
+
+        decreseadMineLeft() {
+            this.mine_left--;
+        }
     },
 
     computed: {
