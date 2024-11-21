@@ -15,6 +15,12 @@
             @start-timer="startTimer" @mine-plus="increseadMineLeft" @mine-minus="decreseadMineLeft" />
     </div>
 
+    <vs-button @click="popUp = true">
+        bouton popup
+    </vs-button>
+    <vs-popup v-model="popUp">
+        <h2>Je suis un pop up</h2>
+    </vs-popup>
 
     <label for="chosenSize">Choose a size: </label>
     <select id="chosenSize" v-model="size">
@@ -23,6 +29,8 @@
         </option>
     </select>
 
+
+    <v-btn color="primary" @click="dialog = true">Ouvrir le pop-up</v-btn>
 </template>
 
 <script>
@@ -45,7 +53,9 @@ export default {
             rightClick: false,
 
             size: 10,
-            possible_size: [10, 11]
+            possible_size: [10, 11],
+            popUp: false,
+            dialog: false,
         }
     },
     methods: {

@@ -17,9 +17,6 @@
         </div>
     </div>
     <div>
-        <button @click="victoryVerification">
-            test
-        </button>
     </div>
 </template>
 
@@ -196,9 +193,6 @@ export default {
         victoryVerification() {
             let number_of_mine = this.initialMineCount
             this.mine_loc.forEach(([row, col]) => {
-                console.log("row : " + row)
-                console.log("col : " + col)
-
                 if (this.grid[row][col].flag) {
                     number_of_mine--;
                 }
