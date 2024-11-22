@@ -49,7 +49,7 @@
         </template>
     </el-dialog>
     <button>
-        <router-link to="./Settings">
+        <router-link to="./settings">
             test
         </router-link>
     </button>
