@@ -7,20 +7,12 @@
             <p id="Mine-left">
                 Mine left: {{ mine_left }}
             </p>
-            <button id="restart-button" @click="restartGame()">
-                restart
-            </button>
+            <el-button text @click="restartGame()">restart</el-button>
         </div>
         <GameGrid ref="GameGridRef" :size="size" :initialMineCount="initialMineCount" :mine_left="mine_left"
-            @start-timer="startTimer" @mine-plus="increseadMineLeft" @mine-minus="decreseadMineLeft" />
+            @start-timer="startTimer" @mine-plus="increseadMineLeft" @mine-minus="decreseadMineLeft" @victory="victory"
+            @game-over="gameOver" />
     </div>
-
-    <vs-button @click="popUp = true">
-        bouton popup
-    </vs-button>
-    <vs-popup v-model="popUp">
-        <h2>Je suis un pop up</h2>
-    </vs-popup>
 
     <label for="chosenSize">Choose a size: </label>
     <select id="chosenSize" v-model="size">
@@ -30,7 +22,31 @@
     </select>
 
 
-    <v-btn color="primary" @click="dialog = true">Ouvrir le pop-up</v-btn>
+    <el-button @click="dialogVictoryVisible = true">victoire</el-button>
+    <el-dialog v-model="dialogVictoryVisible" title="Congratulation!" width="500">
+        <span>You won in {{ formattedTime }}</span>
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="dialogVictoryVisible = false">close</el-button>
+                <el-button type="primary" @click="dialogVictoryVisible = false; restartGame()">
+                    restart
+                </el-button>
+            </div>
+        </template>
+    </el-dialog>
+    <el-button @click="dialogLooseVisible = true">loose</el-button>
+    <el-dialog v-model="dialogLooseVisible" title="Game Over" width="500">
+        <span>You lost. Do you want to try again?</span>
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="dialogLooseVisible = false">close</el-button>
+                <el-button type="primary" @click="dialogLooseVisible = false; restartGame()">
+                    try again
+                </el-button>
+            </div>
+        </template>
+    </el-dialog>
+
 </template>
 
 <script>
@@ -54,8 +70,8 @@ export default {
 
             size: 10,
             possible_size: [10, 11],
-            popUp: false,
-            dialog: false,
+            dialogVictoryVisible: false,
+            dialogLooseVisible: false,
         }
     },
     methods: {
@@ -112,6 +128,16 @@ export default {
 
         decreseadMineLeft() {
             this.mine_left--;
+        },
+
+        gameOver() {
+            this.stopTimer()
+            this.dialogLooseVisible = true;
+        },
+
+        victory() {
+            this.stopTimer()
+            this.dialogVictoryVisible = true;
         }
     },
 
@@ -151,10 +177,6 @@ export default {
 
 #time-spend {
     margin-left: 10px;
-}
-
-#restart-button {
-    margin-right: 10px;
 }
 
 .flag {

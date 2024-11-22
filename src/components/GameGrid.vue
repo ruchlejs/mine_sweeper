@@ -50,6 +50,12 @@ export default {
     watch: {
         size() {
             this.CreateGrid()
+        },
+
+        mine_left() {
+            if (this.mine_left == 0) {
+                this.victoryVerification()
+            }
         }
     },
 
@@ -80,8 +86,8 @@ export default {
                     this.propagation_reveal(row, col)
                 }
                 else {
-                    // alert("Game over");
                     cell.revealed = true;
+                    this.$emit("game-over")
                     console.log("game over")
                 }
             }
@@ -200,6 +206,7 @@ export default {
 
             if (!number_of_mine) {
                 console.log("victory")
+                this.$emit("victory")
             }
             else {
                 console.log("some flag are missplaced")
