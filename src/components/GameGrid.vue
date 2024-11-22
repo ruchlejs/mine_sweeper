@@ -93,10 +93,26 @@ export default {
             }
         },
 
+
         PlaceMines(started_row, started_col) {
             let mine_to_place = this.mine_left;
             const gridArea = this.size * this.size;
             const mineProbability = this.mine_left / gridArea;
+
+            const directions = [
+                [-1, -1], [-1, 0], [-1, 1],
+                [0, -1], [0, 1],
+                [1, -1], [1, 0], [1, 1]
+            ];
+
+            function isAdjacentToStart(rowIndex, colIndex) {
+                for (const [dx, dy] of directions) {
+                    if (rowIndex === started_row + dx && colIndex === started_col + dy) {
+                        return true;
+                    }
+                }
+                return false;
+            }
 
             while (mine_to_place > 0) {
                 this.grid.forEach((row, rowIndex) => {
@@ -104,7 +120,7 @@ export default {
                         if (!mine_to_place) return;
 
                         let random = Math.random() < mineProbability;
-                        if (random && started_row != rowIndex && started_col != colIndex) {
+                        if (random && started_row != rowIndex && started_col != colIndex && !isAdjacentToStart(rowIndex, colIndex)) {
                             if (!cell.mine) {
                                 mine_to_place--;
                                 cell.mine = true;
