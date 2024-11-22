@@ -1,20 +1,12 @@
 <template>
-  <MainBanner />
-  <GameConteneur />
-  <GameGrid />
+  <router-view></router-view>
 </template>
 
 <script>
-import MainBanner from './components/MainBanner.vue'
-import GameConteneur from './components/GameConteneur.vue';
 
 
 export default {
   name: 'MainComponent',
-  components: {
-    MainBanner,
-    GameConteneur,
-  }
 }
 
 </script>

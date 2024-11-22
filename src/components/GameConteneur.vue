@@ -44,8 +44,15 @@
                     try again
                 </el-button>
             </div>
+
+
         </template>
     </el-dialog>
+    <button>
+        <router-link to="./Settings">
+            test
+        </router-link>
+    </button>
 
 </template>
 
