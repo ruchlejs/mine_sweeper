@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import SettingsPage from "./pages/SettingsPage.vue";
 import HomePage from "./pages/MainPage.vue";
+import AccountPage from "./pages/AccountPage.vue";
 
 const links = [
   {
@@ -12,6 +13,11 @@ const links = [
     path: "/settings",
     name: "Settings",
     component: SettingsPage,
+  },
+  {
+    path: "/account",
+    name: "Account",
+    component: AccountPage,
   },
 ];
 

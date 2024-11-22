@@ -1,4 +1,5 @@
 <template>
+    <MainBanner />
     <button>
         <router-link to="./">Back to game</router-link>
     </button>
@@ -21,8 +22,14 @@
 </template>
 
 <script>
+import MainBanner from '@/components/MainBanner.vue';
+
 export default {
     name: 'SettingsPage',
+    components: {
+        MainBanner,
+    },
+
     data() {
         return {
             themes: [

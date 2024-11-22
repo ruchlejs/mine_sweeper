@@ -1,14 +1,10 @@
 <template>
     <div id="Banner">
-        <p id="title">
-            MineSweeper
-        </p>
-        <p id="account">
-            account
-        </p>
-        <p id="settings">
-            settings
-        </p>
+        <el-button link><router-link to="./" class="link">MineSweeper</router-link></el-button>
+
+        <el-button id="account" link><router-link to="./account" class="link">Account</router-link></el-button>
+
+        <el-button link><router-link to="./settings" class="link">Settings</router-link></el-button>
     </div>
 </template>
 
@@ -27,21 +23,17 @@ export default {
     align-items: center;
     color: red;
     border: 1px solid;
-
+    padding: 10px;
     margin-bottom: 50px;
-}
-
-#title {
-    margin-left: 10px;
 }
 
 #account {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-75%);
 }
 
-#settings {
-    margin-right: 10px;
+.link {
+    text-decoration: none;
 }
 </style>
