@@ -162,7 +162,7 @@ export default {
             if (!cell.revealed && cell.flag && this.start) return 'flag';
             if (cell.revealed && cell.mine) return "mine";
             if (cell.revealed && !cell.mine) return cell.adjacent_mine;
-            return `${row}x${col}`
+            return
         },
 
         propagation_reveal(row, col) {

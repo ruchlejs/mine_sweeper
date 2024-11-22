@@ -1,8 +1,5 @@
 <template>
     <MainBanner />
-    <button>
-        <router-link to="./">Back to game</router-link>
-    </button>
     <div class="theme-preview">
         the actual theme is :
         <div class="color-circle" :style="{ backgroundColor: 'var(--primary-color)' }"></div>
@@ -33,11 +30,13 @@ export default {
     data() {
         return {
             themes: [
-                { name: 'RGB', colors: ['#ff0000', '#00ff00', '#0000ff'] },
-                { name: 'light', colors: ['#ffffff', '#3498db', '#000000'] },
-                { name: 'dark', colors: ['#2c3e50', '#34495e', '#ecf0f1'] },
-                { name: 'purple', colors: ['#9b59b6', '#8e44ad', '#ffffff'] },
-                { name: 'dark red', colors: ['#000000', '#333131', '#ff0000'] }
+                { name: 'darkred', colors: ['#1b1b1b', '#333333', '#e74c3c'] },
+                { name: 'dark-yellow', colors: ['#1b1b1b', '#333333', '#f1c40f'] },
+                { name: 'dragon', colors: ['#1b1b1b', '#8b0000', '#ffcc00'] },
+                { name: 'lilac', colors: ['#f8f9fa', '#e6e6fa', '#9370db'] },
+                { name: 'pink', colors: ['#ffe4e1', '#ffc0cb', '#ff69b4'] },
+                { name: 'ninja', colors: ['#1b1b1b', '#2c2c2c', '#5f27cd'] },
+                { name: 'hacker', colors: ['#0b0b0b', '#1b1b1b', '#00ff00'] },
             ],
         };
     },
@@ -56,30 +55,40 @@ export default {
 .theme-preview {
     display: flex;
     align-items: center;
+    flex-grow: 1;
+    flex-basis: 20%;
+    justify-content: center;
     margin-left: 10px;
-    border: 1px solid red;
     border-radius: 10px;
     margin: 5px;
-    padding: 5px;
+    padding: 10px;
+
+    color: var(--tertiary-color);
+    background-color: var(--secondary-color);
+
+    transition: transform 0.5s;
+}
+
+.theme-preview:hover {
+    transform: scale(1.1);
+    border: 1px solid var(--tertiary-color)
 }
 
 .theme-picker {
     display: flex;
-    flex-direction: column;
-    /* border: 1px solid black; */
-    /* border-radius: 10px; */
+    /* flex-direction: column; */
+    flex-wrap: wrap;
     text-align: left;
-    /* align-items: center; */
     width: 100%;
 }
 
 .theme-name {
-    width: 60px;
+    /* width: 120px; */
     margin-right: 10px;
 }
 
 .color-circle {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     width: 20px;
     height: 20px;
     border-radius: 50%;

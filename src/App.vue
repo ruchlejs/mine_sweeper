@@ -13,9 +13,9 @@ export default {
 
 <style>
 :root {
-  --primary-color: #ff0000;
-  --secondary-color: #00ff00;
-  --tertiary-color: #ffffff;
+  --primary-color: #1b1b1b;
+  --secondary-color: #333333;
+  --tertiary-color: #e74c3c;
 }
 
 #app {
@@ -29,6 +29,8 @@ export default {
 
 html,
 body {
+  margin-left: 7%;
+  margin-right: 7%;
   background-color: var(--primary-color);
 }
 </style>
