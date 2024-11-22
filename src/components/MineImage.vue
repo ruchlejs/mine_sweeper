@@ -1,5 +1,5 @@
 <template>
-    <img class="flag" alt="test right click" src="../assets/mine.webp">
+    <img class="mine" alt="this is a mine" src="../assets/mine.webp">
 </template>
 
 <script>
@@ -8,3 +8,9 @@ export default {
 }
 
 </script>
+
+<style>
+.mine {
+    border-radius: 15px;
+}
+</style>

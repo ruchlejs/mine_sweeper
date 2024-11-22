@@ -7,7 +7,7 @@
             <p id="Mine-left">
                 Mine left: {{ mine_left }}
             </p>
-            <el-button text @click="restartGame()">restart</el-button>
+            <el-button class="button" text @click="restartGame()"><span id="restart">restart</span></el-button>
         </div>
         <GameGrid ref="GameGridRef" :size="size" :initialMineCount="initialMineCount" :mine_left="mine_left"
             @start-timer="startTimer" @mine-plus="increseadMineLeft" @mine-minus="decreseadMineLeft" @victory="victory"
@@ -22,7 +22,6 @@
     </select>
 
 
-    <el-button @click="dialogVictoryVisible = true">victoire</el-button>
     <el-dialog v-model="dialogVictoryVisible" title="Congratulation!" width="500">
         <span>You won in {{ formattedTime }}</span>
         <template #footer>
@@ -34,7 +33,7 @@
             </div>
         </template>
     </el-dialog>
-    <el-button @click="dialogLooseVisible = true">loose</el-button>
+
     <el-dialog v-model="dialogLooseVisible" title="Game Over" width="500">
         <span>You lost. Do you want to try again?</span>
         <template #footer>
@@ -45,15 +44,8 @@
                 </el-button>
             </div>
 
-
         </template>
     </el-dialog>
-    <button>
-        <router-link to="./settings">
-            test
-        </router-link>
-    </button>
-
 </template>
 
 <script>
@@ -158,20 +150,25 @@ export default {
 
 <style scoped>
 .game-container {
-    border: 5px solid;
+    /* border: 1px solid; */
+    border-radius: 15px;
+    background-color: var(--primary-color);
 }
 
 .gameBar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: blue;
-    border: 1px solid;
+
+    color: var(--tertiary-color);
+    /* border: 1px solid; */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-color: var(--secondary-color)
 }
 
 
 .game {
-    color: purple;
     border: 1px solid;
     margin-top: 0px;
 }
@@ -191,9 +188,18 @@ export default {
     height: 40px;
 }
 
-.cell {
-    width: 40px;
-    height: 40px;
-    border: 10px solid black;
+.button {
+    color: var(--tertiary-color)
+}
+
+.button:hover {
+    color: var(--tertiary-color);
+    /* Changer la couleur du texte au survol */
+    background-color: var(--secondary-color);
+    /* Changer la couleur de fond au survol */
+}
+
+#restart {
+    color: var(--tertiary-color)
 }
 </style>

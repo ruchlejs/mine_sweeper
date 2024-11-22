@@ -37,6 +37,7 @@ export default {
                 { name: 'light', colors: ['#ffffff', '#3498db', '#000000'] },
                 { name: 'dark', colors: ['#2c3e50', '#34495e', '#ecf0f1'] },
                 { name: 'purple', colors: ['#9b59b6', '#8e44ad', '#ffffff'] },
+                { name: 'dark red', colors: ['#000000', '#333131', '#ff0000'] }
             ],
         };
     },

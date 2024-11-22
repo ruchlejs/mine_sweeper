@@ -1,7 +1,10 @@
 <template>
-    <MainBanner />
-    <GameConteneur />
-    <GameGrid />
+    <div id="main">
+
+        <MainBanner />
+        <GameConteneur />
+        <GameGrid />
+    </div>
 </template>
 
 <script>
@@ -17,3 +20,5 @@ export default {
     }
 }
 </script>
+
+<style scoped></style>

@@ -21,10 +21,12 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: red;
-    border: 1px solid;
     padding: 10px;
     margin-bottom: 50px;
+    border-radius: 13px;
+
+    /* border: 1px solid; */
+    background-color: var(--secondary-color);
 }
 
 #account {
@@ -35,5 +37,7 @@ export default {
 
 .link {
     text-decoration: none;
+
+    color: var(--tertiary-color);
 }
 </style>

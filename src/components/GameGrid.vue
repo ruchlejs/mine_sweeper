@@ -1,7 +1,8 @@
 <template>
     <div class="game-grid" :style="{ gridTemplateColumns: `repeat(${size}, 1fr)` }">
         <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
-            <div v-for="(col, colIndex) in row" :key="colIndex" class="grid-col" @click="cellReveal(rowIndex, colIndex)"
+            <div v-for="(col, colIndex) in row" :key="colIndex" class="grid-col"
+                :class="classIfReveal(rowIndex, colIndex)" @click="cellReveal(rowIndex, colIndex)"
                 @contextmenu="putFlag(rowIndex, colIndex)">
                 <FlagImage v-if="cellContent(rowIndex, colIndex) === 'flag'"
                     :style="{ height: '100%', width: '100%' }" />
@@ -227,6 +228,10 @@ export default {
             else {
                 console.log("some flag are missplaced")
             }
+        },
+
+        classIfReveal(row, col) {
+            return { 'revealed': this.grid[row][col].revealed }
         }
 
     }
@@ -244,13 +249,18 @@ export default {
 
 .grid-col {
     aspect-ratio: 1;
-    /* width: 40px;*/
-    /* height: 40px; */
-    border: 1px solid black;
-
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
+    border-radius: 15px;
+    background-color: var(--tertiary-color)
+}
+
+.revealed {
+    color: var(--tertiary-color);
+    border: 1px solid var(--tertiary-color);
+    background-color: var(--primary-color);
 }
 </style>

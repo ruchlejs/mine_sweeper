@@ -15,7 +15,7 @@ export default {
 :root {
   --primary-color: #ff0000;
   --secondary-color: #00ff00;
-  --tertiary-color: #0000FF;
+  --tertiary-color: #ffffff;
 }
 
 #app {
@@ -25,5 +25,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+html,
+body {
+  background-color: var(--primary-color);
 }
 </style>
