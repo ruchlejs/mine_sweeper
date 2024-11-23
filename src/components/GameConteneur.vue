@@ -68,7 +68,7 @@ export default {
             rightClick: false,
 
             size: 10,
-            possible_size: [10, 11],
+            possible_size: [10, 20],
             dialogVictoryVisible: false,
             dialogLooseVisible: false,
         }

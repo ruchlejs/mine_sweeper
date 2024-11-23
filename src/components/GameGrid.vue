@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { useSizeStore } from '@/stores/sizeStore';
 import FlagImage from './FlagImage.vue';
 import MineImage from './MineImage.vue';
 
@@ -32,9 +33,15 @@ export default {
         MineImage,
     },
     props: {
-        size: Number,
+        // size: Number,
         initialMineCount: Number,
         mine_left: Number,
+    },
+
+    setup() {
+        const sizeStore = useSizeStore();
+
+        return { size: sizeStore.size }
     },
     data() {
         return {

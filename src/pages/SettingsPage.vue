@@ -1,5 +1,15 @@
 <template>
     <MainBanner />
+    <h2>Difficulty</h2>
+    <div class="difficulty-selector">
+        <div v-for="difficulty in difficulties" :key="difficulty.name" class="difficulty"
+            :class="isSelected(difficulty.name)" @click="chooseDifficulty(difficulty)">
+            <p>{{ difficulty.name }} {{ difficulty.size }}x{{ difficulty.size }}</p>
+        </div>
+    </div>
+
+
+    <h2>Theme</h2>
     <div class="theme-preview">
         the actual theme is :
         <div class="color-circle" :style="{ backgroundColor: 'var(--primary-color)' }"></div>
@@ -20,6 +30,7 @@
 
 <script>
 import MainBanner from '@/components/MainBanner.vue';
+import { useSizeStore } from '@/stores/sizeStore';
 
 export default {
     name: 'SettingsPage',
@@ -27,8 +38,20 @@ export default {
         MainBanner,
     },
 
+    setup() {
+        const size = useSizeStore();
+        return { size };
+    },
+
     data() {
         return {
+            difficulties: [
+                { name: 'easy', size: 10, mines: 10 },
+                { name: 'medium', size: 20, mines: 20 },
+                { name: 'hard', size: 30, mines: 30 },
+            ],
+            selected_difficulty: 'easy',
+
             themes: [
                 { name: 'darkred', colors: ['#1b1b1b', '#333333', '#e74c3c'] },
                 { name: 'dark-yellow', colors: ['#1b1b1b', '#333333', '#f1c40f'] },
@@ -46,12 +69,33 @@ export default {
             document.documentElement.style.setProperty('--primary-color', theme.colors[0])
             document.documentElement.style.setProperty('--secondary-color', theme.colors[1])
             document.documentElement.style.setProperty('--tertiary-color', theme.colors[2])
+        },
+
+        isSelected(name) {
+            return name === this.selected_difficulty ? 'selected' : '';
+        },
+
+
+        chooseDifficulty(difficulty) {
+            this.selected_difficulty = difficulty.name;
+            this.size.setSize(difficulty.size);
+            console.log(this.size.size)
         }
     }
 };
 </script>
 
 <style scoped>
+h2 {
+    text-align: left;
+    color: var(--tertiary-color);
+}
+
+.difficulty-selector {
+    display: flex;
+}
+
+.difficulty,
 .theme-preview {
     display: flex;
     align-items: center;
@@ -69,6 +113,7 @@ export default {
     transition: transform 0.5s;
 }
 
+.selected,
 .theme-preview:hover {
     transform: scale(1.1);
     border: 1px solid var(--tertiary-color)
