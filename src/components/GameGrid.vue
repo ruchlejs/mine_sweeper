@@ -99,6 +99,7 @@ export default {
             let mine_to_place = this.mine_left;
             const gridArea = this.size * this.size;
             const mineProbability = this.mine_left / gridArea;
+            this.mine_loc.fl
 
             const directions = [
                 [-1, -1], [-1, 0], [-1, 1],
@@ -223,6 +224,7 @@ export default {
 
             if (!number_of_mine) {
                 console.log("victory")
+                console.log(this.mine_loc)
                 this.$emit("victory")
             }
             else {
@@ -242,9 +244,9 @@ export default {
 <style scoped>
 .game-grid {
     display: grid;
-    /* grid-template-columns: 1fr repeat(8, 40px) 1fr; */
-    /* grid-template-rows: repeat(10, 1fr); */
-    /* gap: 2px; */
+
+    border-radius: 15px;
+    overflow: hidden;
 }
 
 .grid-col {
@@ -259,8 +261,9 @@ export default {
 }
 
 .revealed {
+    font-size: 170%;
     color: var(--tertiary-color);
-    border: 1px solid var(--tertiary-color);
+    border: 1px dashed var(--tertiary-color);
     background-color: var(--primary-color);
 }
 </style>

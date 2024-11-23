@@ -7,7 +7,7 @@
             <p id="Mine-left">
                 Mine left: {{ mine_left }}
             </p>
-            <el-button class="button" text @click="restartGame()"><span id="restart">restart</span></el-button>
+            <el-button class="button" link @click="restartGame()"><span id="restart">restart</span></el-button>
         </div>
         <GameGrid ref="GameGridRef" :size="size" :initialMineCount="initialMineCount" :mine_left="mine_left"
             @start-timer="startTimer" @mine-plus="increseadMineLeft" @mine-minus="decreseadMineLeft" @victory="victory"
@@ -119,6 +119,7 @@ export default {
             this.mine_left = this.initialMineCount;
             this.$refs.GameGridRef.CreateGrid();
             this.$refs.GameGridRef.start = false;
+            this.$refs.GameGridRef.mine_loc = [];
         },
 
         increseadMineLeft() {
@@ -164,7 +165,8 @@ export default {
     /* border: 1px solid; */
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    background-color: var(--secondary-color)
+    background-color: var(--secondary-color);
+    padding: 10px;
 }
 
 
@@ -180,7 +182,8 @@ export default {
 }
 
 #time-spend {
-    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .flag {
@@ -190,13 +193,6 @@ export default {
 
 .button {
     color: var(--tertiary-color)
-}
-
-.button:hover {
-    color: var(--tertiary-color);
-    /* Changer la couleur du texte au survol */
-    background-color: var(--secondary-color);
-    /* Changer la couleur de fond au survol */
 }
 
 #restart {
