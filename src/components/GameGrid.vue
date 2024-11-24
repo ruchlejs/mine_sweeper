@@ -2,8 +2,8 @@
     <div class="game-grid" :style="{ gridTemplateColumns: `repeat(${size}, 1fr)` }">
         <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
             <div v-for="(col, colIndex) in row" :key="colIndex" class="grid-col"
-                :class="classIfReveal(rowIndex, colIndex)" @click="cellReveal(rowIndex, colIndex)"
-                @contextmenu="putFlag(rowIndex, colIndex)">
+                :class="classIfReveal(rowIndex, colIndex)" :style="{ fontSize: dynamicFontSize }"
+                @click="cellReveal(rowIndex, colIndex)" @contextmenu="putFlag(rowIndex, colIndex)">
                 <FlagImage v-if="cellContent(rowIndex, colIndex) === 'flag'"
                     :style="{ height: '100%', width: '100%' }" />
                 <MineImage v-else-if="cellContent(rowIndex, colIndex) === 'mine'"
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { useSizeStore } from '@/stores/sizeStore';
+import { useSettingsStore } from '@/stores/settingsStore';
 import FlagImage from './FlagImage.vue';
 import MineImage from './MineImage.vue';
 
@@ -39,7 +39,7 @@ export default {
     },
 
     setup() {
-        const sizeStore = useSizeStore();
+        const sizeStore = useSettingsStore();
 
         return { size: sizeStore.size }
     },
@@ -243,6 +243,13 @@ export default {
             return { 'revealed': this.grid[row][col].revealed }
         }
 
+    },
+    computed: {
+        dynamicFontSize() {
+            const baseFontSize = 1.7;
+            const scaleFactor = 50;
+            return `${baseFontSize - this.size / scaleFactor}rem`;
+        }
     }
 
 }
@@ -268,7 +275,6 @@ export default {
 }
 
 .revealed {
-    font-size: 170%;
     color: var(--tertiary-color);
     border: 1px dashed var(--tertiary-color);
     background-color: var(--primary-color);
