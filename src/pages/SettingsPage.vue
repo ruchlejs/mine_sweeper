@@ -149,6 +149,7 @@ h2 {
 #actual-theme {
     transform: none;
     border: 0px;
+    cursor: default;
 }
 
 .difficulty,
