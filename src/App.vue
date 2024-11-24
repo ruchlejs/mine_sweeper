@@ -31,6 +31,7 @@ html,
 body {
   margin-left: 7%;
   margin-right: 7%;
+  margin-bottom: 4%;
   background-color: var(--primary-color);
 }
 </style>
