@@ -3,14 +3,14 @@
     <h2>Difficulty</h2>
     <div class="difficulty-selector">
         <div v-for="difficulty in difficulties" :key="difficulty.name" class="difficulty"
-            :class="isSelected(difficulty.name)" @click="chooseDifficulty(difficulty)">
+            :class="isDifficultySelected(difficulty.name)" @click="chooseDifficulty(difficulty)">
             <p>{{ difficulty.name }} {{ difficulty.size }}x{{ difficulty.size }}</p>
         </div>
     </div>
 
 
     <h2>Theme</h2>
-    <div class="theme-preview">
+    <div class="theme-preview" id="actual-theme">
         the actual theme is :
         <div class="color-circle" :style="{ backgroundColor: 'var(--primary-color)' }"></div>
         <div class="color-circle" :style="{ backgroundColor: 'var(--secondary-color)' }"></div>
@@ -19,7 +19,8 @@
     </div>
 
     <div class="theme-picker">
-        <div v-for="theme in themes" :key="theme.name" class="theme-preview" @click="setTheme(theme)">
+        <div v-for="theme in themes" :key="theme.name" class="theme-preview" :class="isThemeSelected(theme.name)"
+            @click="setTheme(theme)">
             <p class="theme-name">{{ theme.name }}</p>
             <div v-for="(color, index) in theme.colors" :key="index" :class="['color-circle']"
                 :style="{ backgroundColor: color }">
@@ -30,7 +31,7 @@
 
 <script>
 import MainBanner from '@/components/MainBanner.vue';
-import { useSizeStore } from '@/stores/sizeStore';
+import { useSettingsStore } from '@/stores/settingsStore';
 
 export default {
     name: 'SettingsPage',
@@ -39,21 +40,19 @@ export default {
     },
 
     setup() {
-        const size = useSizeStore();
-        return { size };
+        const difficulty = useSettingsStore();
+        return { difficulty };
     },
 
     data() {
         return {
             difficulties: [
                 { name: 'easy', size: 10, mines: 10 },
-                { name: 'medium', size: 20, mines: 20 },
-                { name: 'hard', size: 30, mines: 30 },
+                { name: 'medium', size: 20, mines: 80 },
+                { name: 'hard', size: 30, mines: 270 },
             ],
-            selected_difficulty: 'easy',
-
             themes: [
-                { name: 'darkred', colors: ['#1b1b1b', '#333333', '#e74c3c'] },
+                { name: 'dark-red', colors: ['#1b1b1b', '#333333', '#e74c3c'] },
                 { name: 'dark-yellow', colors: ['#1b1b1b', '#333333', '#f1c40f'] },
                 { name: 'dragon', colors: ['#1b1b1b', '#8b0000', '#ffcc00'] },
                 { name: 'lilac', colors: ['#f8f9fa', '#e6e6fa', '#9370db'] },
@@ -69,17 +68,24 @@ export default {
             document.documentElement.style.setProperty('--primary-color', theme.colors[0])
             document.documentElement.style.setProperty('--secondary-color', theme.colors[1])
             document.documentElement.style.setProperty('--tertiary-color', theme.colors[2])
+
+            this.difficulty.setTheme(theme.name);
+            console.log(this.difficulty.theme)
         },
 
-        isSelected(name) {
-            return name === this.selected_difficulty ? 'selected' : '';
+        isDifficultySelected(name) {
+            return name === this.difficulty.difficulty ? 'selected' : '';
         },
 
+        isThemeSelected(name) {
+            return name === this.difficulty.theme ? 'selected' : '';
+        },
 
         chooseDifficulty(difficulty) {
-            this.selected_difficulty = difficulty.name;
-            this.size.setSize(difficulty.size);
-            console.log(this.size.size)
+            // this.difficulty.difficulty = difficulty.name;
+            this.difficulty.setDifficulty(difficulty.name)
+            this.difficulty.setSize(difficulty.size);
+            this.difficulty.setMine(difficulty.mines)
         }
     }
 };
@@ -138,5 +144,15 @@ h2 {
     height: 20px;
     border-radius: 50%;
     margin: 10px;
+}
+
+#actual-theme {
+    transform: none;
+    border: 0px;
+}
+
+.difficulty,
+.theme-preview {
+    cursor: pointer;
 }
 </style>
