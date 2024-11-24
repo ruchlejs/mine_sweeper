@@ -34,4 +34,16 @@ body {
   margin-bottom: 4%;
   background-color: var(--primary-color);
 }
+
+.el-dialog,
+.el-dialog__body,
+.el-dialog__title {
+  background-color: var(--primary-color) !important;
+  color: var(--secondary-color) !important;
+  border-radius: 15px !important;
+}
+
+.el-dialog__body {
+  color: var(--tertiary-color) !important;
+}
 </style>
