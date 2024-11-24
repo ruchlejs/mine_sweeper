@@ -14,14 +14,6 @@
             @game-over="gameOver" />
     </div>
 
-    <label for="chosenSize">Choose a size: </label>
-    <select id="chosenSize" v-model="size">
-        <option v-for="gridSize in possible_size" :key="gridSize" :value="gridSize">
-            {{ gridSize }}x{{ gridSize }}
-        </option>
-    </select>
-
-
     <el-dialog v-model="dialogVictoryVisible" title="Congratulation!" width="500">
         <span>You won in {{ formattedTime }}</span>
         <template #footer>
@@ -50,6 +42,7 @@
 
 <script>
 import GameGrid from './GameGrid.vue';
+import { useSettingsStore } from '@/stores/settingsStore';
 
 
 export default {
@@ -57,14 +50,17 @@ export default {
     components: {
         GameGrid,
     },
+
+    setup() {
+        const settings = useSettingsStore();
+        return { initialMineCount: settings.mine }
+    },
     data() {
-        const initialMineCount = 10;
 
         return {
             timer: 0,
             start: null,
-            mine_left: initialMineCount,
-            initialMineCount,
+            mine_left: this.initialMineCount,
             rightClick: false,
 
             size: 10,
