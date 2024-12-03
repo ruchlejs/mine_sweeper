@@ -40,4 +40,17 @@ defmodule BackendWeb.UserController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def update_record(conn, %{"id" => id, "record" => new_record}) do
+    user = Users.get_user!(id)
+
+    with {:ok, %User{} = user} <- Users.update_record(user, new_record) do
+      render(conn, :show, user: user)
+    else
+      {:error, :no_update} ->
+        conn
+        |>put_status(:not_modified)
+        |>json(%{message: "couldn't modifiy the record"})
+    end
+  end
 end

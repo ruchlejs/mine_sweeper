@@ -95,4 +95,14 @@ defmodule Backend.Users do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  def update_record(%User{} = user, new_record) do
+    if(new_record > user.record) do
+      user
+      |>User.changeset(%{record: new_record})
+      |>Repo.update()
+    else
+      {:error, :no_update}
+    end
+  end
 end

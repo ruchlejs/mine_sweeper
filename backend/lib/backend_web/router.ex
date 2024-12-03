@@ -9,6 +9,7 @@ defmodule BackendWeb.Router do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit]
+    patch "/users/:id/record", UserController, :update_record
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

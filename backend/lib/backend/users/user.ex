@@ -14,6 +14,6 @@ defmodule Backend.Users.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:username, :password, :record])
-    |> validate_required([:username, :password, :record])
+    |> validate_required([:username, :password])
   end
 end
