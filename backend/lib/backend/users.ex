@@ -105,4 +105,10 @@ defmodule Backend.Users do
       {:error, :no_update}
     end
   end
+
+  def get_user_with_record(id) do
+    User
+    |>Repo.get!(id)
+    |>Repo.preload(:records)
+  end
 end

@@ -5,7 +5,7 @@ defmodule BackendWeb.RecordJSON do
     %{data: data(record)}
   end
 
-  defp data(%Record{} = record) do
+  def data(%Record{} = record) do
     %{
       user: record.user_id,
       score: record.score,

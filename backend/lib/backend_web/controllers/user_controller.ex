@@ -21,7 +21,8 @@ defmodule BackendWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
+    # user = Users.get_user!(id)
+    user = Users.get_user_with_record(id)
     render(conn, :show, user: user)
   end
 

@@ -1,5 +1,7 @@
 defmodule BackendWeb.UserJSON do
   alias Backend.Users.User
+  alias BackendWeb.RecordJSON
+  alias Backend.Records
 
   @doc """
   Renders a list of users.
@@ -20,7 +22,7 @@ defmodule BackendWeb.UserJSON do
       id: user.id,
       username: user.username,
       password: user.password,
-      # record: user.record
+      record: Enum.map(user.records, &RecordJSON.data/1)
     }
   end
 end
