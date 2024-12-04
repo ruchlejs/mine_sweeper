@@ -23,7 +23,7 @@ defmodule BackendWeb.UserController do
   def show(conn, %{"id" => id}) do
     # user = Users.get_user!(id)
     user = Users.get_user_with_record(id)
-    render(conn, :show, user: user)
+    render(conn, :show_with_record, user: user)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
@@ -39,19 +39,6 @@ defmodule BackendWeb.UserController do
 
     with {:ok, %User{}} <- Users.delete_user(user) do
       send_resp(conn, :no_content, "")
-    end
-  end
-
-  def update_record(conn, %{"id" => id, "record" => new_record}) do
-    user = Users.get_user!(id)
-
-    with {:ok, %User{} = user} <- Users.update_record(user, new_record) do
-      render(conn, :show, user: user)
-    else
-      {:error, :no_update} ->
-        conn
-        |>put_status(:not_modified)
-        |>json(%{message: "couldn't modifiy the record"})
     end
   end
 end

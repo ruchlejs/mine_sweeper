@@ -1,7 +1,6 @@
 defmodule BackendWeb.UserJSON do
   alias Backend.Users.User
   alias BackendWeb.RecordJSON
-  alias Backend.Records
 
   @doc """
   Renders a list of users.
@@ -10,7 +9,8 @@ defmodule BackendWeb.UserJSON do
     %{data: for(user <- users, do: data(user))}
   end
 
-  @doc """
+
+    @doc """
   Renders a single user.
   """
   def show(%{user: user}) do
@@ -21,7 +21,22 @@ defmodule BackendWeb.UserJSON do
     %{
       id: user.id,
       username: user.username,
-      password: user.password,
+      password: user.encrypted_password,
+    }
+  end
+
+  @doc """
+  Renders a single user with his records.
+  """
+  def show_with_record(%{user: user}) do
+    %{data: data_with_record(user)}
+  end
+
+  defp data_with_record(%User{} = user) do
+    %{
+      id: user.id,
+      username: user.username,
+      password: user.encrypted_password,
       record: Enum.map(user.records, &RecordJSON.data/1)
     }
   end

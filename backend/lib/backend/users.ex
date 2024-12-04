@@ -12,7 +12,9 @@ defmodule Backend.Users do
 
   """
   def list_users do
-    Repo.all(User)
+    User
+    |> Repo.all()
+    |> Repo.preload(:records)
   end
 
   @doc """
@@ -96,15 +98,6 @@ defmodule Backend.Users do
     User.changeset(user, attrs)
   end
 
-  def update_record(%User{} = user, new_record) do
-    if(new_record > user.record) do
-      user
-      |>User.changeset(%{record: new_record})
-      |>Repo.update()
-    else
-      {:error, :no_update}
-    end
-  end
 
   def get_user_with_record(id) do
     User

@@ -1,7 +1,6 @@
 defmodule BackendWeb.RecordController do
   use BackendWeb, :controller
 
-  alias Backend.Users
   alias Backend.Records
   alias Backend.Records.Record
 

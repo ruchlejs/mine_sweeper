@@ -4,7 +4,8 @@ defmodule Backend.Users.User do
 
   schema "users" do
     field :username, :string
-    field :password, :string
+    field :password, :string, virtual: true
+    field :encrypted_password, :string
 
     has_many :records, Backend.Records.Record
 
@@ -16,5 +17,16 @@ defmodule Backend.Users.User do
     user
     |> cast(attrs, [:username, :password])
     |> validate_required([:username, :password])
+    |> put_password_hash()
+  end
+
+  defp put_password_hash(changeset) do
+    case get_change(changeset, :password) do
+      nil -> changeset
+      password ->
+        hash_password = Bcrypt.hash_pwd_salt(password)
+        put_change(changeset, :encrypted_password, hash_password)
+    end
+
   end
 end
