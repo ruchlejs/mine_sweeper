@@ -20,7 +20,7 @@ defmodule BackendWeb.UserJSON do
       id: user.id,
       username: user.username,
       password: user.password,
-      record: user.record
+      # record: user.record
     }
   end
 end
