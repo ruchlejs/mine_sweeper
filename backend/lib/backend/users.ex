@@ -33,6 +33,13 @@ defmodule Backend.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user(id) do
+    case Repo.get(User, id) do
+      nil -> {:error, :not_found}
+      user -> {:ok, user}
+    end
+  end
+
   @doc """
   Creates a user.
 
@@ -100,8 +107,9 @@ defmodule Backend.Users do
 
 
   def get_user_with_record(id) do
-    User
-    |>Repo.get!(id)
-    |>Repo.preload(:records)
+    case Repo.get(User,id) do
+      nil -> {:error, :not_found}
+      user -> {:ok, Repo.preload(user,:records)}
+    end
   end
 end

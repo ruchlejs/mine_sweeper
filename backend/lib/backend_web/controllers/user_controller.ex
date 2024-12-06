@@ -21,23 +21,24 @@ defmodule BackendWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    # user = Users.get_user!(id)
-    user = Users.get_user_with_record(id)
-    render(conn, :show_with_record, user: user)
+    with {:ok, %User{} = user} <- Users.get_user_with_record(id) do
+      render(conn, :show_with_record, user: user)
+    end
+
+    # user = Users.get_user_with_record(id)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Users.get_user!(id)
+    with {:ok, user} <- Users.get_user(id),
+         {:ok, new_user} <- Users.update_user(user, user_params) do
+        render(conn, :show, user: new_user)
+      end
 
-    with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
-      render(conn, :show, user: user)
-    end
   end
 
   def delete(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
-
-    with {:ok, %User{}} <- Users.delete_user(user) do
+    with {:ok, user} <- Users.get_user(id),
+         {:ok, %User{}} <- Users.delete_user(user) do
       send_resp(conn, :no_content, "")
     end
   end
