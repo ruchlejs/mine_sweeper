@@ -16,9 +16,10 @@ defmodule BackendWeb.RecordController do
 
   def index(conn, %{"user_id" => user_id}) do
 
-    records = Records.get_records!(user_id)
-    conn
-    |> put_status(:ok)
-    |> render(:index, record: records)
+    with {:ok, records} <-Records.get_records!(user_id) do
+      conn
+      |> put_status(:ok)
+      |> render(:index, record: records)
+    end
   end
 end

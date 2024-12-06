@@ -6,16 +6,16 @@ defmodule Backend.Records do
   import Ecto.Query
 
   def create_record(user_id, attrs) do
-    user = Repo.get(User, user_id)
 
-    if user do
+    with %User{} <- Repo.get(User, user_id) do
       attrs = Map.put(attrs, "user_id", user_id)
 
       %Record{}
       |> Record.changeset(attrs)
       |> Repo.insert()
     else
-      {:error, "User not found"}
+      nil ->
+        {:error, :not_found}
     end
   end
 
@@ -24,6 +24,10 @@ defmodule Backend.Records do
   end
 
   def get_records!(user_id) do
-    Repo.all(from r in Record, where: r.user_id == ^user_id)
+    with %User{} <- Repo.get(User, user_id) do
+      {:ok, Repo.all(from r in Record, where: r.user_id == ^user_id)}
+    else
+      nil -> {:error, :not_found}
+    end
   end
 end

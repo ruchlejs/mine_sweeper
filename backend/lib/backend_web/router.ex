@@ -9,7 +9,7 @@ defmodule BackendWeb.Router do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit] do
-      resources "/record", RecordController, only: [:create, :index, :show]
+      resources "/record", RecordController, only: [:create, :index]
     end
     # patch "/users/:id/record", UserController, :update_record
   end
