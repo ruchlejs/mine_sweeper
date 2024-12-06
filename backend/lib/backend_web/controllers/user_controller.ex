@@ -24,8 +24,6 @@ defmodule BackendWeb.UserController do
     with {:ok, %User{} = user} <- Users.get_user_with_record(id) do
       render(conn, :show_with_record, user: user)
     end
-
-    # user = Users.get_user_with_record(id)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
