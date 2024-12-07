@@ -5,6 +5,7 @@ defmodule BackendWeb.RecordController do
   alias Backend.Records.Record
 
   action_fallback BackendWeb.FallbackController
+  plug BackendWeb.Plugs.UserExist when action in [:create,:index]
 
   def create(conn, %{"user_id" => user_id, "record" => new_record}) do
     with {:ok, %Record{} = record} <- Records.create_record(user_id, new_record) do
