@@ -1,11 +1,11 @@
 defmodule Backend.Records do
   alias Backend.Repo
   alias Backend.Records.Record
-  alias Backend.Users.User
 
   import Ecto.Query
 
   def create_record(user_id, attrs) do
+    attrs = Map.put(attrs, "user_id", user_id)
     %Record{}
     |> Record.changeset(attrs)
     |> Repo.insert()

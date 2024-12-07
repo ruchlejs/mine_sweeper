@@ -3,7 +3,7 @@ defmodule BackendWeb.Plugs.CorrectId do
 
   def init(opts), do: opts
 
-  def call(conn,opts) do
+  def call(conn,_opt) do
     id = conn.params["id"]
 
     if String.match?(id,~r/^\d+$/) do
