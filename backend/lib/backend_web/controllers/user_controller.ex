@@ -5,6 +5,7 @@ defmodule BackendWeb.UserController do
   alias Backend.Users.User
 
   action_fallback BackendWeb.FallbackController
+  plug BackendWeb.Plugs.CorrectId when action in [:show, :update, :delete]
 
   def index(conn, _params) do
     users = Users.list_users()

@@ -107,16 +107,9 @@ defmodule Backend.Users do
 
 
   def get_user_with_record(id) do
-    if String.match?(id,~r/^\d+$/) do
       case Repo.get(User,id) do
         nil -> {:error, :not_found}
         user -> {:ok, Repo.preload(user,:records)}
       end
-    else
-      {:error, :invalid_id}
-    end
   end
-
-
-
 end
