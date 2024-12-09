@@ -1,16 +1,17 @@
 <template>
     <MainBanner />
-    <h1>
-        This is account page
-    </h1>
+    <LoginWindow />
 </template>
 
 <script>
 import MainBanner from '@/components/MainBanner.vue';
+import LoginWindow from '@/components/LoginWindow.vue';
+
 export default {
     name: 'AccountPage',
     components: {
-        MainBanner
-    }
+        MainBanner,
+        LoginWindow,
+    },
 }
 </script>
