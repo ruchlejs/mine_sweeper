@@ -52,13 +52,13 @@ export default {
                 { name: 'hard', size: 30, mines: 270 },
             ],
             themes: [
-                { name: 'dark-red', colors: ['#1b1b1b', '#333333', '#e74c3c'] },
-                { name: 'dark-yellow', colors: ['#1b1b1b', '#333333', '#f1c40f'] },
-                { name: 'dragon', colors: ['#1b1b1b', '#8b0000', '#ffcc00'] },
-                { name: 'lilac', colors: ['#f8f9fa', '#e6e6fa', '#9370db'] },
-                { name: 'pink', colors: ['#ffe4e1', '#ffc0cb', '#ff69b4'] },
-                { name: 'ninja', colors: ['#1b1b1b', '#2c2c2c', '#5f27cd'] },
-                { name: 'hacker', colors: ['#0b0b0b', '#1b1b1b', '#00ff00'] },
+                { name: 'dark-red', colors: ['#1b1b1b', '#333333', '#e74c3c'], alt: '#222222' },
+                { name: 'dark-yellow', colors: ['#1b1b1b', '#333333', '#f1c40f'], alt: '#222222' },
+                { name: 'dragon', colors: ['#1b1b1b', '#8b0000', '#ffcc00'], alt: '#680000' },
+                { name: 'lilac', colors: ['#f8f9fa', '#e6e6fa', '#9370db'], alt: '#f1f1fc' },
+                { name: 'pink', colors: ['#ffe4e1', '#ffc0cb', '#ff69b4'], alt: '#ffd3d0' },
+                { name: 'ninja', colors: ['#1b1b1b', '#2c2c2c', '#5f27cd'], alt: '#333333' },
+                { name: 'hacker', colors: ['#0b0b0b', '#1b1b1b', '#00ff00'], alt: '#242424' },
             ],
         };
     },
@@ -68,6 +68,7 @@ export default {
             document.documentElement.style.setProperty('--primary-color', theme.colors[0])
             document.documentElement.style.setProperty('--secondary-color', theme.colors[1])
             document.documentElement.style.setProperty('--tertiary-color', theme.colors[2])
+            document.documentElement.style.setProperty('--secondary-color-alt', theme.alt)
 
             this.difficulty.setTheme(theme.name);
             console.log(this.difficulty.theme)
