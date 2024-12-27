@@ -10,6 +10,7 @@ defmodule BackendWeb.RecordJSON do
       user: record.user_id,
       score: record.score,
       time: record.inserted_at,
+      difficulty: record.difficulty
     }
   end
 
