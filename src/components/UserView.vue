@@ -53,22 +53,28 @@ export default {
             difficulty_selector: ['easy', 'medium', 'hard'],
             records: {
                 easy: [
-                    { 'score': '44:39', 'date': '2024-08-15', 'hour': '10:43' },
-                    { 'score': '26:41', 'date': '2024-07-25', 'hour': '05:41' },
-                    { 'score': '35:21', 'date': '2024-01-19', 'hour': '04:04' },
-                    { 'score': '47:25', 'date': '2024-12-19', 'hour': '11:23' },
-                    { 'score': '58:40', 'date': '2024-04-29', 'hour': '07:28' },
-                    { 'score': '51:37', 'date': '2024-03-09', 'hour': '20:21' },
-                    { 'score': '46:28', 'date': '2024-04-16', 'hour': '08:25' },
-                    { 'score': '38:44', 'date': '2024-12-25', 'hour': '05:10' },
-                    { 'score': '11:01', 'date': '2024-06-03', 'hour': '02:34' },
-                    { 'score': '51:39', 'date': '2024-08-04', 'hour': '17:28' }
+                    // { 'score': '44:39', 'date': '2024-08-15', 'hour': '10:43' },
+                    // { 'score': '26:41', 'date': '2024-07-25', 'hour': '05:41' },
+                    // { 'score': '35:21', 'date': '2024-01-19', 'hour': '04:04' },
+                    // { 'score': '47:25', 'date': '2024-12-19', 'hour': '11:23' },
+                    // { 'score': '58:40', 'date': '2024-04-29', 'hour': '07:28' },
+                    // { 'score': '51:37', 'date': '2024-03-09', 'hour': '20:21' },
+                    // { 'score': '46:28', 'date': '2024-04-16', 'hour': '08:25' },
+                    // { 'score': '38:44', 'date': '2024-12-25', 'hour': '05:10' },
+                    // { 'score': '11:01', 'date': '2024-06-03', 'hour': '02:34' },
+                    // { 'score': '51:39', 'date': '2024-08-04', 'hour': '17:28' }
                 ],
                 medium: [
-                    { 'score': '58:40', 'date': '2024-04-29', 'hour': '07:28' },
-                ]
+                    // { 'score': '58:40', 'date': '2024-04-29', 'hour': '07:28' },
+                ],
+                hard: []
             },
             picture: "",
+            temp: {
+                easy: [],
+                medium: [],
+                hard: []
+            },
         }
     },
     methods: {
@@ -93,7 +99,48 @@ export default {
                     reader.readAsDataURL(file[0])
                 }
             }
+        },
+        async fetchRecord() {
+            const backend = "http://localhost:4000/api/";
+            const user = "1/";
+            const response = await fetch(backend + "users/" + user + "record");
+            const json = await response.json();
+
+            for (let i = 0; i < json.data.length; i++) {
+                const date = json.data[i].time;
+                const difficulty = json.data[i].difficulty;
+                const score = this.convertScore(json.data[i].score);
+
+                const { date: formattedDate, hour: formattedHour } = this.convertDate(date);
+                const record = { date: formattedDate, hour: formattedHour, score: `${score}` }
+
+                this.records[difficulty].push(record);
+            }
+        },
+        convertDate(date) {
+            const dateObj = new Date(date);
+
+            const year = dateObj.getFullYear();
+            const month = dateObj.getMonth() + 1;
+            const day = dateObj.getDate();
+
+            const hours = dateObj.getHours();
+            const minutes = dateObj.getMinutes();
+
+            return { "date": `${year}-${month}-${day}`, "hour": `${hours}:${minutes}` };
+        },
+        convertScore(score) {
+            let min = score / 60 | 0;
+            let sec = score % 60;
+
+            min = min > 10 ? `${min}` : `0${min}`;
+            sec = sec > 10 ? `${sec}` : `0${sec}`;
+
+            return `${min}:${sec}`;
         }
+    },
+    created() {
+        this.fetchRecord();
     }
 }
 
