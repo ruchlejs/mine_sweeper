@@ -45,6 +45,7 @@
 
 <script>
 
+
 export default {
     name: "UserView",
     data() {
@@ -52,29 +53,11 @@ export default {
             current_difficulty_index: 0,
             difficulty_selector: ['easy', 'medium', 'hard'],
             records: {
-                easy: [
-                    // { 'score': '44:39', 'date': '2024-08-15', 'hour': '10:43' },
-                    // { 'score': '26:41', 'date': '2024-07-25', 'hour': '05:41' },
-                    // { 'score': '35:21', 'date': '2024-01-19', 'hour': '04:04' },
-                    // { 'score': '47:25', 'date': '2024-12-19', 'hour': '11:23' },
-                    // { 'score': '58:40', 'date': '2024-04-29', 'hour': '07:28' },
-                    // { 'score': '51:37', 'date': '2024-03-09', 'hour': '20:21' },
-                    // { 'score': '46:28', 'date': '2024-04-16', 'hour': '08:25' },
-                    // { 'score': '38:44', 'date': '2024-12-25', 'hour': '05:10' },
-                    // { 'score': '11:01', 'date': '2024-06-03', 'hour': '02:34' },
-                    // { 'score': '51:39', 'date': '2024-08-04', 'hour': '17:28' }
-                ],
-                medium: [
-                    // { 'score': '58:40', 'date': '2024-04-29', 'hour': '07:28' },
-                ],
-                hard: []
-            },
-            picture: "",
-            temp: {
                 easy: [],
                 medium: [],
                 hard: []
             },
+            picture: "",
         }
     },
     methods: {
@@ -106,6 +89,10 @@ export default {
             const response = await fetch(backend + "users/" + user + "record");
             const json = await response.json();
 
+            json.data.sort((a, b) => {
+                return a.score - b.score;
+            });
+
             for (let i = 0; i < json.data.length; i++) {
                 const date = json.data[i].time;
                 const difficulty = json.data[i].difficulty;
@@ -116,6 +103,11 @@ export default {
 
                 this.records[difficulty].push(record);
             }
+
+            this.difficulty_selector.forEach(difficulty => {
+
+                this.records[difficulty] = this.records[difficulty].slice(0, 10);
+            });
         },
         convertDate(date) {
             const dateObj = new Date(date);
@@ -130,11 +122,13 @@ export default {
             return { "date": `${year}-${month}-${day}`, "hour": `${hours}:${minutes}` };
         },
         convertScore(score) {
+            console.log("score " + score)
             let min = score / 60 | 0;
+            console.log("min " + min)
             let sec = score % 60;
 
-            min = min > 10 ? `${min}` : `0${min}`;
-            sec = sec > 10 ? `${sec}` : `0${sec}`;
+            min = min > 9 ? `${min}` : `0${min}`;
+            sec = sec > 9 ? `${sec}` : `0${sec}`;
 
             return `${min}:${sec}`;
         }
