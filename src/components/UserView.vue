@@ -6,7 +6,7 @@
         <div class="user-data">
             <div class="user-picture-container">
                 <div class="user-picture">
-                    <img class="mine" alt="this is a mine" src="../assets/mine.webp">
+                    <img class="mine" alt="this is a mine" :src="picture">
                 </div>
                 <input type="file" id="fileInput" @change="onFileSelected" accept="image/*" hidden />
                 <button class="image-loader" @click="loadPicture">Upload picture</button>
@@ -122,18 +122,27 @@ export default {
             return { "date": `${year}-${month}-${day}`, "hour": `${hours}:${minutes}` };
         },
         convertScore(score) {
-            console.log("score " + score)
             let min = score / 60 | 0;
-            console.log("min " + min)
             let sec = score % 60;
 
             min = min > 9 ? `${min}` : `0${min}`;
             sec = sec > 9 ? `${sec}` : `0${sec}`;
 
             return `${min}:${sec}`;
+        },
+        async fetchProfilePicture() {
+            const backend = "http://localhost:4000/api/";
+            const user = "1/";
+            const response = await fetch(backend + "users/" + user + "image");
+            const profilePictureURL = response.url;
+
+            return profilePictureURL;
         }
     },
     created() {
+        this.fetchProfilePicture().then(url => {
+            this.picture = url;
+        })
         this.fetchRecord();
     }
 }
