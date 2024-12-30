@@ -70,16 +70,31 @@ export default {
         loadPicture() {
             document.getElementById("fileInput").click()
         },
-        onFileSelected(event) {
-            const file = event.target.files;
-            if (file.length > 0) {
-                if (file[0].type.startsWith("image/")) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        this.picture = e.target.result;
-                        console.log(this.picture)
+        async onFileSelected(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.type.startsWith("image/")) {
+                const formData = new FormData();
+                formData.append("profile_picture", file)
+
+                const backend = "http://localhost:4000/api/";
+                const user = "1/";
+
+                try {
+                    const response = await fetch(backend + "users/" + user + "image", {
+                        method: "PUT",
+                        body: formData
+                    });
+                    if (response.ok) {
+                        console.log("update profile picture with success");
+                        this.updateProfilePicture();
+                    } else {
+                        const error = await response.json()
+                        console.error("upload fail:", error);
                     }
-                    reader.readAsDataURL(file[0])
+                } catch (e) {
+                    console.error("network error :", e);
                 }
             }
         },
@@ -137,12 +152,15 @@ export default {
             const profilePictureURL = response.url;
 
             return profilePictureURL;
+        },
+        updateProfilePicture() {
+            this.fetchProfilePicture().then(url => {
+                this.picture = `${url}?timestamp=${new Date().getTime()}`;
+            })
         }
     },
     created() {
-        this.fetchProfilePicture().then(url => {
-            this.picture = url;
-        })
+        this.updateProfilePicture();
         this.fetchRecord();
     }
 }
