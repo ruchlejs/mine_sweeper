@@ -51,25 +51,24 @@ defmodule BackendWeb.UserController do
       conn
       |> send_resp(:bad_request, "Wrong extension. We accept only #{Enum.join(allowed_extensions,", ")}")
       |> halt()
-    end
+    else
+      unique_name = "#{user_id}_profile#{extension}"
+      destination = Path.join(:code.priv_dir(:backend),"/uploads/#{unique_name}")
 
-    unique_name = "#{user_id}_profile#{extension}"
-    destination = Path.join(:code.priv_dir(:backend),"/uploads/#{unique_name}")
+      case File.cp(picture.path,destination) do
+        :ok ->
+          with {:ok, user} <- Users.get_user(user_id),
+               {:ok, %User{}} <- Users.update_profile_picture(user,%{"profile_picture" => unique_name}) do
+                send_resp(conn, :ok, "New picture upload with sucess with the name: #{unique_name}")
+          else
+            _ ->
+              conn
+              |> put_status(:internal_server_error)
+              |> send_resp(:internal_server_error, "An unexpected error occurred")
+          end
 
-    case File.cp(picture.path,destination) do
-      :ok ->
-        with {:ok, user} <- Users.get_user(user_id),
-             {:ok, %User{} = update_user} <- Users.update_profile_picture(user,%{"profile_picture" => unique_name}) do
-
-              send_resp(conn, :ok, "New picture upload with sucess with the name: #{unique_name}")
-        else
-          _ ->
-            conn
-            |> put_status(:internal_server_error)
-            |> send_resp(:internal_server_error, "An unexpected error occurred")
-        end
-
-      {:error, reason} -> send_resp(conn, :bad_request, "reason: #{reason}")
+        {:error, reason} -> send_resp(conn, :bad_request, "reason: #{reason}")
+      end
     end
   end
 

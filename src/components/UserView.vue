@@ -90,7 +90,8 @@ export default {
                         console.log("update profile picture with success");
                         this.updateProfilePicture();
                     } else {
-                        const error = await response.json()
+                        const error = await response.text();
+                        console.log(error)
                         console.error("upload fail:", error);
                     }
                 } catch (e) {
