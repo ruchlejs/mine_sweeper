@@ -101,15 +101,18 @@ defmodule BackendWeb.UserController do
   def delete_image(conn, %{"user_id" => user_id}) do
     case Users.get_user(user_id) do
       {:ok, user} ->
-        file_path = Path.join(:code.priv_dir(:backend),"/uploads/#{user.profile_picture}")
-        case File.rm(file_path) do
-          :ok ->
-            IO.puts("File #{file_path} removed successfully.")
+        default_picture = "default_profile.jpg"
+        if default_picture != user.profile_picture do
+          file_path = Path.join(:code.priv_dir(:backend),"/uploads/#{user.profile_picture}")
+          case File.rm(file_path) do
+            :ok ->
+              IO.puts("File #{file_path} removed successfully.")
 
-          {:error, reason} ->
-            IO.puts("Error removing file: #{reason}")
+            {:error, reason} ->
+              IO.puts("Error removing file: #{reason}")
+          end
         end
-        with {:ok, _updated_user} <- Users.update_profile_picture(user, %{"profile_picture" => "default_profile.jpg"}) do
+        with {:ok, _updated_user} <- Users.update_profile_picture(user, %{"profile_picture" => default_picture}) do
           send_resp(conn, :no_content, "")
         end
     end
