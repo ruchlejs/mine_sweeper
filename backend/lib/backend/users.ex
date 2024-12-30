@@ -112,4 +112,17 @@ defmodule Backend.Users do
         user -> {:ok, Repo.preload(user,:records)}
       end
   end
+
+  def get_profile_picture(id) do
+    case Repo.get(User,id) do
+      nil-> {:error, :not_found}
+      user -> {:ok, user.profile_picture}
+    end
+  end
+
+  def update_profile_picture(%User{} = user, %{"profile_picture" => profile_picture}) do
+    user
+    |> User.profile_picture_changeset(%{"profile_picture" => profile_picture})
+    |> Repo.update()
+  end
 end

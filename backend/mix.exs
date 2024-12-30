@@ -47,6 +47,7 @@ defmodule Backend.MixProject do
       {:bandit, "~> 1.5"},
       {:bcrypt_elixir, "~> 3.2.0"},
       {:cors_plug, "~> 3.0"},
+      { :uuid, "~> 1.1" },
     ]
   end
 

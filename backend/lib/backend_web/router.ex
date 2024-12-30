@@ -11,6 +11,12 @@ defmodule BackendWeb.Router do
 
     resources "/users", UserController, except: [:new, :edit] do
       resources "/record", RecordController, only: [:create, :index]
+
+      scope "/image" do
+        put "/", UserController, :change_image
+        get "/", UserController, :show_image
+        delete "/", UserController, :delete_image
+      end
     end
     # patch "/users/:id/record", UserController, :update_record
   end

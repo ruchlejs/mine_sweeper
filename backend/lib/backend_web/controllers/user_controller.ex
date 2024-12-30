@@ -41,4 +41,56 @@ defmodule BackendWeb.UserController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def change_image(conn, %{"profile_picture" => picture, "user_id" => user_id}) do
+    IO.inspect(picture)
+    extension = Path.extname(picture.filename)
+    allowed_extensions = [".jpeg", ".jpg", ".png"]
+
+    if !Enum.member?(allowed_extensions,extension) do
+      conn
+      |> send_resp(:bad_request, "Wrong extension. We accept only #{Enum.join(allowed_extensions,", ")}")
+      |> halt()
+    end
+
+    unique_name = "#{user_id}_profile#{extension}"
+    destination = Path.join(:code.priv_dir(:backend),"/uploads/#{unique_name}")
+
+    case File.cp(picture.path,destination) do
+      :ok ->
+        with {:ok, user} <- Users.get_user(user_id),
+             {:ok, %User{} = update_user} <- Users.update_profile_picture(user,%{"profile_picture" => unique_name}) do
+
+              send_resp(conn, :ok, "New picture upload with sucess with the name: #{unique_name}")
+        else
+          _ ->
+            conn
+            |> put_status(:internal_server_error)
+            |> send_resp(:internal_server_error, "An unexpected error occurred")
+        end
+
+      {:error, reason} -> send_resp(conn, :bad_request, "reason: #{reason}")
+    end
+  end
+
+  def show_image(conn, %{"user_id" => user_id}) do
+    with {:ok, profile_picture} <-Users.get_profile_picture(user_id) do
+      IO.inspect(profile_picture)
+      upload_dir = Path.join(:code.priv_dir(:backend), "/uploads")
+      source = Path.join(upload_dir, profile_picture)
+      if File.exists?(source) do
+        send_file(conn, :ok, source)
+      else
+        send_resp(conn,:not_found,"The picture #{profile_picture} is not in the server")
+      end
+    end
+  end
+
+  def delete_image(conn, %{"user_id" => user_id}) do
+    with {:ok, user} <- Users.get_user(user_id),
+         {:ok, _updated_user} <- Users.update_profile_picture(user, %{"profile_picture" => "default_profile.png"}) do
+      send_resp(conn, :no_content, "")
+    end
+  end
+
 end
