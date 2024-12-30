@@ -52,7 +52,20 @@ defmodule BackendWeb.UserController do
       |> send_resp(:bad_request, "Wrong extension. We accept only #{Enum.join(allowed_extensions,", ")}")
       |> halt()
     else
-      unique_name = "#{user_id}_profile#{extension}"
+
+      base_name = "#{user_id}_profile"
+
+      already_load_extension = Enum.find(allowed_extensions,fn ext ->
+        File.exists?(Path.join(:code.priv_dir(:backend),"/uploads/#{base_name}#{ext}"))
+      end)
+
+      if already_load_extension do
+        File.rm(Path.join(:code.priv_dir(:backend),"/uploads/#{base_name}#{already_load_extension}"))
+      end
+
+
+
+      unique_name = "#{base_name}#{extension}"
       destination = Path.join(:code.priv_dir(:backend),"/uploads/#{unique_name}")
 
       case File.cp(picture.path,destination) do
@@ -86,9 +99,19 @@ defmodule BackendWeb.UserController do
   end
 
   def delete_image(conn, %{"user_id" => user_id}) do
-    with {:ok, user} <- Users.get_user(user_id),
-         {:ok, _updated_user} <- Users.update_profile_picture(user, %{"profile_picture" => "default_profile.png"}) do
-      send_resp(conn, :no_content, "")
+    case Users.get_user(user_id) do
+      {:ok, user} ->
+        file_path = Path.join(:code.priv_dir(:backend),"/uploads/#{user.profile_picture}")
+        case File.rm(file_path) do
+          :ok ->
+            IO.puts("File #{file_path} removed successfully.")
+
+          {:error, reason} ->
+            IO.puts("Error removing file: #{reason}")
+        end
+        with {:ok, _updated_user} <- Users.update_profile_picture(user, %{"profile_picture" => "default_profile.jpg"}) do
+          send_resp(conn, :no_content, "")
+        end
     end
   end
 
