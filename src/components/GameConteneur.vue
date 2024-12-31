@@ -149,15 +149,20 @@ export default {
                     "difficulty": this.difficulty
                 }
             }
-            const response = await fetch(backend + "users/" + user + "record", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(body),
+            try {
 
-            });
-            console.log(await response.json());
+                const response = await fetch(backend + "users/" + user + "record", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(body),
+
+                });
+                console.log(await response.json());
+            } catch (e) {
+                console.error("network error :", e);
+            }
         },
     },
 

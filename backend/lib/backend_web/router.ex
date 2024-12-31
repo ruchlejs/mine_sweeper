@@ -18,6 +18,8 @@ defmodule BackendWeb.Router do
         delete "/", UserController, :delete_image
       end
     end
+
+    post "/login", LoginController, :login
     # patch "/users/:id/record", UserController, :update_record
   end
 

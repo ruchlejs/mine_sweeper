@@ -1,5 +1,5 @@
 <template>
-    <form class="form-container">
+    <form class="form-container" @submit.prevent="handleLogin">
         <h1>Login</h1>
         <div class="login-content">
             <div class="form-row">
@@ -8,12 +8,12 @@
                 <label for="username">Username </label>
             </div>
             <div class="form-row">
-                <input type="password" name="paswword" id="password" v-model="form.password"
+                <input type="password" name="password" id="password" v-model="form.password"
                     :class="{ empty: form.password === '', filled: form.password !== '' }">
                 <label for="password">Password </label>
             </div>
         </div>
-        <input type="submit" value="Login">
+        <input type="submit" value="Login" :disabled="isSubmitting">
     </form>
 </template>
 
@@ -25,7 +25,33 @@ export default {
             form: {
                 username: '',
                 password: '',
+            },
+            isSubmitting: false,
+        }
+    },
+    methods: {
+        async handleLogin() {
+            this.isSubmitting = true;
+
+            const backend = "http://localhost:4000/api/";
+
+            try {
+                const response = await fetch(backend + "login", {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify(this.form)
+                });
+
+                console.log(await response.json());
+
+            } catch (error) {
+                console.error('Error during login:', error);
+            } finally {
+                this.isSubmitting = false;
             }
+
         }
     }
 }
