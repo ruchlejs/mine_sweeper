@@ -15,7 +15,7 @@ defmodule BackendWeb.Endpoint do
     websocket: [connect_info: [session: @session_options]],
     longpoll: [connect_info: [session: @session_options]]
 
-  # plug CORSPlug
+  plug CORSPlug
 
   # Serve at "/" the static files from "priv/static" directory.
   #

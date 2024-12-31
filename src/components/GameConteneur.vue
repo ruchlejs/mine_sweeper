@@ -53,7 +53,10 @@ export default {
 
     setup() {
         const settings = useSettingsStore();
-        return { initialMineCount: settings.mine }
+        return {
+            initialMineCount: settings.mine,
+            difficulty: settings.difficulty,
+        }
     },
     data() {
 
@@ -133,8 +136,29 @@ export default {
 
         victory() {
             this.stopTimer()
+            this.postNewRecord()
             this.dialogVictoryVisible = true;
-        }
+        },
+        async postNewRecord() {
+            const backend = "http://localhost:4000/api/";
+            const user = "1/";
+
+            const body = {
+                "record": {
+                    "score": this.timer,
+                    "difficulty": this.difficulty
+                }
+            }
+            const response = await fetch(backend + "users/" + user + "record", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+
+            });
+            console.log(await response.json());
+        },
     },
 
     computed: {
