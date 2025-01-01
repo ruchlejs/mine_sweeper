@@ -16,7 +16,6 @@ defmodule BackendWeb.Endpoint do
     longpoll: [connect_info: [session: @session_options]]
 
   plug CORSPlug
-  plug BackendWeb.Plugs.AuthPipeline
 
   # Serve at "/" the static files from "priv/static" directory.
   #

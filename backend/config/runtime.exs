@@ -22,13 +22,16 @@ end
 
 
 if File.exists?(".env") do
-  Dotenv.load()
+  env = Dotenv.load(".env")
+  Enum.each(env.values, fn {key, value} ->
+    System.put_env(key, value)
+  end)
 end
 
 # Configuration for Guardian
-config :backend, Backend.Users.Auth.Guardian,
+config :backend, BackendWeb.Auth.Guardian,
   issuer: "backend",
-  secret_key: "test"
+  secret_key: System.get_env("GUARDIAN_SECRET_KEY")
 
 
 if config_env() == :prod do

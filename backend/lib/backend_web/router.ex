@@ -7,14 +7,16 @@ defmodule BackendWeb.Router do
   end
 
 pipeline :authenticated do
-  plug Guardian.Plug.EnsureAuthenticated
+  plug BackendWeb.Plugs.AuthPipeline
+  IO.puts("test")
 end
 
   scope "/api", BackendWeb do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit] do
-      # pipe_through :authenticated
+
+      pipe_through :authenticated
       resources "/record", RecordController, only: [:create, :index]
 
       scope "/image" do
