@@ -6,10 +6,15 @@ defmodule BackendWeb.Router do
     plug CORSPlug
   end
 
+pipeline :authenticated do
+  plug Guardian.Plug.EnsureAuthenticated
+end
+
   scope "/api", BackendWeb do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit] do
+      # pipe_through :authenticated
       resources "/record", RecordController, only: [:create, :index]
 
       scope "/image" do

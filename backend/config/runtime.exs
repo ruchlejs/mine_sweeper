@@ -20,6 +20,17 @@ if System.get_env("PHX_SERVER") do
   config :backend, BackendWeb.Endpoint, server: true
 end
 
+
+if File.exists?(".env") do
+  Dotenv.load()
+end
+
+# Configuration for Guardian
+config :backend, Backend.Users.Auth.Guardian,
+  issuer: "backend",
+  secret_key: "test"
+
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
