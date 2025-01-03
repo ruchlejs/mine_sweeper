@@ -1,6 +1,6 @@
 defmodule BackendWeb.Plugs.AuthPipeline do
   use Guardian.Plug.Pipeline, otp_app: :backend,
-  module: Backend.Users.Auth.Guardian,
+  module: BackendWeb.Auth.Guardian,
   error_handler: BackendWeb.Auth.GuardianErrorHandler
 
   plug Guardian.Plug.VerifySession
