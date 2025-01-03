@@ -22,6 +22,7 @@ defmodule BackendWeb.UserJSON do
       id: user.id,
       username: user.username,
       password: user.encrypted_password,
+      image: user.profile_picture,
     }
   end
 

@@ -5,6 +5,6 @@ defmodule BackendWeb.Plugs.AuthPipeline do
 
   plug Guardian.Plug.VerifySession
   plug Guardian.Plug.VerifyHeader
-  Guardian.Plug.EnsureAuthenticated
+  plug Guardian.Plug.EnsureAuthenticated
   plug Guardian.Plug.LoadResource
 end

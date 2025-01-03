@@ -11,6 +11,6 @@ defmodule BackendWeb.Auth.Guardian do
     user = Users.get_user!(id)
     {:ok, user}
   rescue
-    Ecto.NoResultsError -> {:error, :resource_not_found}
+    Ecto.NoResultsError -> {:error, :unauthorized}
   end
 end
