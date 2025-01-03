@@ -1,4 +1,5 @@
 <template>
+    <MainBanner />
     <form class="form-container" @submit.prevent="handleLogin">
         <h1>Login</h1>
         <div class="login-content">
@@ -18,8 +19,13 @@
 </template>
 
 <script>
+import MainBanner from '@/components/MainBanner.vue';
+
 export default {
     name: 'LoginWindow',
+    components: {
+        MainBanner
+    },
     data() {
         return {
             form: {
@@ -39,12 +45,14 @@ export default {
                 const response = await fetch(backend + "login", {
                     method: "POST",
                     headers: {
-                        "content-type": "application/json"
+                        "content-type": "application/json",
                     },
                     body: JSON.stringify(this.form)
                 });
-
-                console.log(await response.json());
+                const json = await response.json();
+                console.log(json.token)
+                localStorage.setItem("auth-token", json.token)
+                this.$router.push("settings")
 
             } catch (error) {
                 console.error('Error during login:', error);
@@ -52,7 +60,7 @@ export default {
                 this.isSubmitting = false;
             }
 
-        }
+        },
     }
 }
 </script>
