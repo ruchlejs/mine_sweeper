@@ -2,12 +2,12 @@
     <MainBanner />
     <div class="user-information">
         <div class="user-name">
-            <h1>Username</h1>
+            <h1>{{ username }}</h1>
         </div>
         <div class="user-data">
             <div class="user-picture-container">
                 <div class="user-picture">
-                    <img class="mine" alt="this is a mine" :src="picture">
+                    <img class="picture" alt="this is your profile picture" :src="picture">
                 </div>
                 <input type="file" id="fileInput" @change="onFileSelected" accept="image/*" hidden />
                 <button class="image-loader" @click="loadPicture">Upload picture</button>
@@ -64,6 +64,7 @@ export default {
                 hard: []
             },
             picture: "",
+            username: "username"
         }
     },
     methods: {
@@ -90,6 +91,9 @@ export default {
                 try {
                     const response = await fetch(backend + "users/" + user + "image", {
                         method: "PUT",
+                        headers: {
+                            "authorization": `Bearer ${localStorage.getItem("auth-token")}`
+                        },
                         body: formData
                     });
                     if (response.ok) {
@@ -108,7 +112,11 @@ export default {
         async fetchRecord() {
             const backend = "http://localhost:4000/api/";
             const user = "1/";
-            const response = await fetch(backend + "users/" + user + "record");
+            const response = await fetch(backend + "users/" + user + "record", {
+                headers: {
+                    "authorization": `Bearer ${localStorage.getItem("auth-token")}`
+                }
+            });
             const json = await response.json();
 
             if (response.ok) {
@@ -132,7 +140,7 @@ export default {
                     this.records[difficulty] = this.records[difficulty].slice(0, 10);
                 });
             } else {
-                console.log(json)
+                console.log(json);
             }
         },
         convertDate(date) {
@@ -159,14 +167,25 @@ export default {
         async fetchProfilePicture() {
             const backend = "http://localhost:4000/api/";
             const user = "1/";
-            const response = await fetch(backend + "users/" + user + "image");
-            const profilePictureURL = response.url;
+            const response = await fetch(backend + "users/" + user + "image", {
+                headers: {
+                    "authorization": `Bearer ${localStorage.getItem("auth-token")}`
+                }
+            });
 
-            return profilePictureURL;
+            if (response.ok) {
+                const blob = await response.blob();
+                const profilePictureURL = URL.createObjectURL(blob);
+                return profilePictureURL;
+            }
+            console.log(await response.json());
+
+            return "";
+
         },
         updateProfilePicture() {
-            this.fetchProfilePicture().then(url => {
-                this.picture = `${url}?timestamp=${new Date().getTime()}`;
+            this.picutre = this.fetchProfilePicture().then(url => {
+                this.picture = url
             })
         }
     },
@@ -220,7 +239,7 @@ th {
     background-color: var(--primary-color);
 }
 
-.mine {
+.picture {
     height: 100%;
     width: 100%;
 }
