@@ -40,6 +40,9 @@
             </div>
         </div>
 
+        <div class="logout">
+            <button class="logout-button" @click="logout">Log out</button>
+        </div>
     </div>
 
 </template>
@@ -189,6 +192,11 @@ export default {
             this.picutre = this.fetchProfilePicture().then(url => {
                 this.picture = url
             })
+        },
+        logout() {
+            localStorage.removeItem("user_id");
+            localStorage.removeItem("auth-token");
+            this.$router.push("/");
         }
     },
     created() {
@@ -285,7 +293,8 @@ th {
     object-fit: cover;
 }
 
-.image-loader {
+.image-loader,
+.logout-button {
     background-color: var(--secondary-color-alt);
     border: 0;
     border-radius: 12px;
@@ -298,5 +307,10 @@ th {
 #difficulty {
     color: var(--tertiary-color);
     margin: 0;
+}
+
+.logout {
+    text-align: center;
+    margin-top: 20px;
 }
 </style>
