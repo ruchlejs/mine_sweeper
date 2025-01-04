@@ -10,7 +10,7 @@ defmodule BackendWeb.LoginController do
       case Guardian.encode_and_sign(user) do
         {:ok, token, _claims} ->
           # Votre logique pour gérer un token valide
-          json(conn, %{token: token})
+          json(conn, %{token: token, user_id: user.id})
 
         {:error, :secret_not_found} ->
           # Logique pour gérer l'erreur de clé secrète manquante

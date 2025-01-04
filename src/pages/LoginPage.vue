@@ -39,7 +39,7 @@ export default {
         async handleLogin() {
             this.isSubmitting = true;
 
-            const backend = "http://localhost:4000/api/";
+            const backend = process.env.VUE_APP_BACKEND;
 
             try {
                 const response = await fetch(backend + "login", {
@@ -50,9 +50,14 @@ export default {
                     body: JSON.stringify(this.form)
                 });
                 const json = await response.json();
-                console.log(json.token)
-                localStorage.setItem("auth-token", json.token)
-                this.$router.push("settings")
+                if (response.ok) {
+                    localStorage.setItem("auth-token", json.token)
+                    localStorage.setItem("user_id", json.user_id)
+                    localStorage.setItem("username", this.form.username)
+                    this.$router.push("Account")
+                } else {
+                    console.log(json)
+                }
 
             } catch (error) {
                 console.error('Error during login:', error);

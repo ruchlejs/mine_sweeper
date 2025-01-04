@@ -136,12 +136,15 @@ export default {
 
         victory() {
             this.stopTimer()
-            this.postNewRecord()
+            const token = localStorage.getItem("auth-token")
+            if (token) {
+                this.postNewRecord(token)
+            }
             this.dialogVictoryVisible = true;
         },
-        async postNewRecord() {
-            const backend = "http://localhost:4000/api/";
-            const user = "1/";
+        async postNewRecord(token) {
+            const backend = process.env.VUE_APP_BACKEND;
+            const user = localStorage.getItem("user_id");
 
             const body = {
                 "record": {
@@ -151,10 +154,11 @@ export default {
             }
             try {
 
-                const response = await fetch(backend + "users/" + user + "record", {
+                const response = await fetch(backend + "users/" + user + "/record", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
+                        "authorization": `Bearer ${token}`
                     },
                     body: JSON.stringify(body),
 

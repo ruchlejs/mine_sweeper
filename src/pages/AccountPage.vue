@@ -64,7 +64,9 @@ export default {
                 hard: []
             },
             picture: "",
-            username: "username"
+            username: "username",
+            backend: "",
+            user_id: "",
         }
     },
     methods: {
@@ -110,9 +112,7 @@ export default {
             }
         },
         async fetchRecord() {
-            const backend = "http://localhost:4000/api/";
-            const user = "1/";
-            const response = await fetch(backend + "users/" + user + "record", {
+            const response = await fetch(this.backend + "users/" + this.user_id + "/record", {
                 headers: {
                     "authorization": `Bearer ${localStorage.getItem("auth-token")}`
                 }
@@ -147,11 +147,11 @@ export default {
             const dateObj = new Date(date);
 
             const year = dateObj.getFullYear();
-            const month = dateObj.getMonth() + 1;
-            const day = dateObj.getDate();
+            const month = this.addZero(dateObj.getMonth() + 1);
+            const day = this.addZero(dateObj.getDate());
 
-            const hours = dateObj.getHours();
-            const minutes = dateObj.getMinutes();
+            const hours = this.addZero(dateObj.getHours());
+            const minutes = this.addZero(dateObj.getMinutes());
 
             return { "date": `${year}-${month}-${day}`, "hour": `${hours}:${minutes}` };
         },
@@ -164,10 +164,12 @@ export default {
 
             return `${min}:${sec}`;
         },
+        addZero(val) {
+            if (val < 10) return "0" + val;
+            return val;
+        },
         async fetchProfilePicture() {
-            const backend = "http://localhost:4000/api/";
-            const user = "1/";
-            const response = await fetch(backend + "users/" + user + "image", {
+            const response = await fetch(this.backend + "users/" + this.user_id + "/image", {
                 headers: {
                     "authorization": `Bearer ${localStorage.getItem("auth-token")}`
                 }
@@ -190,8 +192,11 @@ export default {
         }
     },
     created() {
+        this.backend = process.env.VUE_APP_BACKEND;
+        this.user_id = localStorage.getItem("user_id");
         this.updateProfilePicture();
         this.fetchRecord();
+        this.username = localStorage.getItem("username");
     }
 }
 
