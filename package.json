@@ -1,46 +1,23 @@
 {
-  "name": "mine_sweeper",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "core-js": "^3.8.3",
-    "element-plus": "^2.8.8",
-    "pinia": "^2.2.6",
-    "vue": "^3.2.13",
-    "vue-router": "^4.0.13"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "^5.0.8",
-    "@vue/cli-plugin-eslint": "^5.0.8",
-    "@vue/cli-service": "^5.0.8",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
+    "name": "mine_sweeper",
+    "version": "1.0.0",
+    "description": "Fullstack Mine Sweeper application with Vue.js frontend and Phoenix backend.",
+    "private": true,
+    "scripts": {
+        "install": "npm run install:frontend && npm run install:backend",
+        "install:frontend": "npm install --prefix frontend",
+        "install:backend": "cd backend && mix deps.get",
+        "dev": "npm run dev:frontend & npm run dev:backend",
+        "dev:frontend": "npm run serve --prefix frontend",
+        "dev:backend": "cd backend && mix phx.server",
+        "build": "npm run build:frontend",
+        "build:frontend": "npm run build --prefix frontend",
+        "start": "npm run start:backend",
+        "start:backend": "cd backend && MIX_ENV=prod mix phx.server",
+        "lint": "npm run lint:frontend",
+        "lint:frontend": "npm run lint --prefix frontend"
     },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
-  ]
+    "dependencies": {
+        "concurrently": "^8.2.0"
+    }
 }

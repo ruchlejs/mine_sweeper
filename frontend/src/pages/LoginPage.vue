@@ -12,6 +12,9 @@
                 <input type="password" name="password" id="password" v-model="form.password"
                     :class="{ empty: form.password === '', filled: form.password !== '' }">
                 <label for="password">Password </label>
+                <div v-if="showError" class="error-message">
+                    <p>⚠️ Username or password incorrect</p>
+                </div>
             </div>
         </div>
         <input type="submit" value="Login" :disabled="isSubmitting">
@@ -35,11 +38,13 @@ export default {
                 password: '',
             },
             isSubmitting: false,
+            showError: false,
         }
     },
     methods: {
         async handleLogin() {
             this.isSubmitting = true;
+            this.showError = false;
 
             const backend = process.env.VUE_APP_BACKEND;
 
@@ -58,6 +63,7 @@ export default {
                     localStorage.setItem("username", this.form.username)
                     this.$router.push("Account")
                 } else {
+                    this.showError = true;
                     console.log(json)
                 }
 
@@ -160,5 +166,16 @@ input[type="submit"]:hover {
 
 #register_button:hover {
     text-decoration-line: underline;
+}
+
+.error-message {
+    margin-top: 10px;
+    font-size: small;
+    text-align: left;
+    font-weight: bold;
+}
+
+p {
+    margin: 0%;
 }
 </style>
