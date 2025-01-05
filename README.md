@@ -104,12 +104,11 @@ Follow these steps to set up the project locally:
 
 1. Build the frontend:
    ```bash
-   npm run build --prefix frontend
+   npm run build
    ```
 2. Start the backend in production mode:
    ```bash
-   cd backend
-   MIX_ENV=prod mix phx.server
+   npm run start
    ```
 
 ## Contribution
