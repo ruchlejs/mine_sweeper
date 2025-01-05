@@ -90,11 +90,8 @@ export default {
                 const formData = new FormData();
                 formData.append("profile_picture", file)
 
-                const backend = "http://localhost:4000/api/";
-                const user = "1/";
-
                 try {
-                    const response = await fetch(backend + "users/" + user + "image", {
+                    const response = await fetch(this.backend + "users/" + this.user_id + "/image", {
                         method: "PUT",
                         headers: {
                             "authorization": `Bearer ${localStorage.getItem("auth-token")}`
