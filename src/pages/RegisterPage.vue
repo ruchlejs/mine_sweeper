@@ -1,22 +1,31 @@
 <template>
     <MainBanner />
-    <form class="form-container" @submit.prevent="handleLogin">
-        <h1>Login</h1>
+    <form class="form-container" @submit.prevent="handleRegister">
+        <h1>Register</h1>
         <div class="login-content">
             <div class="form-row">
                 <input type="text" name="username" id="username" v-model="form.username"
                     :class="{ empty: form.username === '', filled: form.username !== '' }">
                 <label for="username">Username </label>
+                <div v-if="userAlreadyExist" class="user-already-exist">
+                    <p>⚠️ This username is already taken</p>
+                </div>
             </div>
             <div class="form-row">
                 <input type="password" name="password" id="password" v-model="form.password"
                     :class="{ empty: form.password === '', filled: form.password !== '' }">
                 <label for="password">Password </label>
             </div>
+            <div class="form-row">
+                <input type="password" name="verify-password" id="verify-password" v-model="verify_password"
+                    :class="{ empty: verify_password === '', filled: verify_password !== '' }" @input="verifyPassword">
+                <label for="verify-password">Verify password </label>
+                <div v-if="showError" class="different-password">
+                    <p>⚠️ The passwords are not the same!</p>
+                </div>
+            </div>
         </div>
-        <input type="submit" value="Login" :disabled="isSubmitting">
-        <p id="register">Don't have an account? <span id="register_button" @click="goRegister">Register</span>
-        </p>
+        <input type="submit" value="Register" :disabled="isSubmitting || misMatch">
     </form>
 </template>
 
@@ -24,7 +33,7 @@
 import MainBanner from '@/components/MainBanner.vue';
 
 export default {
-    name: 'LoginPage',
+    name: 'RegisterPage',
     components: {
         MainBanner
     },
@@ -34,22 +43,37 @@ export default {
                 username: '',
                 password: '',
             },
+            verify_password: '',
             isSubmitting: false,
+            misMatch: false,
+            showError: false,
+            userAlreadyExist: false,
+        }
+    },
+    watch: {
+        'form.password': 'checkPassword',
+        verify_password: 'checkPassword',
+        'form.username'() {
+            if (this.userAlreadyExist)
+                this.userAlreadyExist = false;
         }
     },
     methods: {
-        async handleLogin() {
+        async handleRegister() {
             this.isSubmitting = true;
 
             const backend = process.env.VUE_APP_BACKEND;
+            const body = {
+                user: this.form,
+            }
 
             try {
-                const response = await fetch(backend + "login", {
+                const response = await fetch(backend + "users", {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
                     },
-                    body: JSON.stringify(this.form)
+                    body: JSON.stringify(body),
                 });
                 const json = await response.json();
                 if (response.ok) {
@@ -58,7 +82,10 @@ export default {
                     localStorage.setItem("username", this.form.username)
                     this.$router.push("Account")
                 } else {
-                    console.log(json)
+                    console.log(json.errors)
+                    if (json.errors.username) {
+                        this.userAlreadyExist = true;
+                    }
                 }
 
             } catch (error) {
@@ -66,10 +93,16 @@ export default {
             } finally {
                 this.isSubmitting = false;
             }
-
         },
-        goRegister() {
-            this.$router.push("/register");
+        checkPassword() {
+            console.log(this.form.password)
+            console.log(this.verify_password)
+            this.misMatch = this.form.password !== this.verify_password;
+            if (this.verify_password && this.misMatch) {
+                this.showError = true;
+            } else {
+                this.showError = false;
+            }
         }
     }
 }
@@ -147,18 +180,20 @@ input[type="submit"]:hover {
     filter: brightness(70%);
 }
 
-#register {
-    text-align: center;
-    margin: 0px;
+.different-password,
+.user-already-exist {
+    margin-top: 10px;
     font-size: small;
-}
-
-#register_button {
+    text-align: left;
     font-weight: bold;
-    cursor: pointer;
 }
 
-#register_button:hover {
-    text-decoration-line: underline;
+p {
+    margin: 0%;
+}
+
+input[type="submit"]:hover:disabled {
+    filter: none;
+    cursor: not-allowed;
 }
 </style>

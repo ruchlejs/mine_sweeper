@@ -3,6 +3,7 @@ import SettingsPage from "./pages/SettingsPage.vue";
 import HomePage from "./pages/MainPage.vue";
 import AccountPage from "./pages/AccountPage.vue";
 import LoginPage from "./pages/LoginPage.vue";
+import RegisterPage from "./pages/RegisterPage.vue";
 
 const links = [
   {
@@ -25,6 +26,11 @@ const links = [
     path: "/login",
     name: "Login",
     component: LoginPage,
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: RegisterPage,
   },
 ];
 
