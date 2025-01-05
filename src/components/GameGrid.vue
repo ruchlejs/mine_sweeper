@@ -48,6 +48,7 @@ export default {
             grid: [],
             start: false,
             mine_loc: [],
+            finish: false,
         }
     },
 
@@ -81,22 +82,26 @@ export default {
         },
 
         cellReveal(row, col) {
-            if (!this.start) {
-                this.PlaceMines(row, col);
-                this.compute_adjacent_mine();
-                this.$emit("start-timer")
-                this.start = true;
-            }
-            const cell = this.grid[row][col];
-            if (cell.flag) return;
-            if (!cell.revealed) {
-                if (!cell.mine) {
-                    this.propagation_reveal(row, col)
+            if (!this.finish) {
+
+                if (!this.start) {
+                    this.PlaceMines(row, col);
+                    this.compute_adjacent_mine();
+                    this.$emit("start-timer")
+                    this.start = true;
                 }
-                else {
-                    cell.revealed = true;
-                    this.$emit("game-over")
-                    console.log("game over")
+                const cell = this.grid[row][col];
+                if (cell.flag) return;
+                if (!cell.revealed) {
+                    if (!cell.mine) {
+                        this.propagation_reveal(row, col)
+                    }
+                    else {
+                        cell.revealed = true;
+                        this.$emit("game-over")
+                        console.log("game over")
+                        this.finish = true;
+                    }
                 }
             }
         },
@@ -233,6 +238,7 @@ export default {
                 console.log("victory")
                 console.log(this.mine_loc)
                 this.$emit("victory")
+                this.finish = true;
             }
             else {
                 console.log("some flag are missplaced")

@@ -18,8 +18,8 @@
         <span>You won in {{ formattedTime }}</span>
         <template #footer>
             <div class="dialog-footer">
-                <el-button @click="dialogVictoryVisible = false">close</el-button>
-                <el-button type="primary" @click="dialogVictoryVisible = false; restartGame()">
+                <el-button @click="dialogVictoryVisible = false" class="close-button">close</el-button>
+                <el-button type="primary" @click="dialogVictoryVisible = false; restartGame()" class="restart-button">
                     restart
                 </el-button>
             </div>
@@ -30,8 +30,8 @@
         <span>You lost. Do you want to try again?</span>
         <template #footer>
             <div class="dialog-footer">
-                <el-button @click="dialogLooseVisible = false">close</el-button>
-                <el-button type="primary" @click="dialogLooseVisible = false; restartGame()">
+                <el-button @click="dialogLooseVisible = false" class="close-button">close</el-button>
+                <el-button type="primary" @click="dialogLooseVisible = false; restartGame()" class="restart-button">
                     try again
                 </el-button>
             </div>
@@ -67,7 +67,6 @@ export default {
             rightClick: false,
 
             size: 10,
-            possible_size: [10, 20],
             dialogVictoryVisible: false,
             dialogLooseVisible: false,
         }
@@ -118,6 +117,7 @@ export default {
             this.mine_left = this.initialMineCount;
             this.$refs.GameGridRef.CreateGrid();
             this.$refs.GameGridRef.start = false;
+            this.$refs.GameGridRef.finish = false;
             this.$refs.GameGridRef.mine_loc = [];
         },
 
@@ -226,5 +226,29 @@ export default {
 
 #restart {
     color: var(--tertiary-color)
+}
+
+.close-button {
+    color: var(--tertiary-color);
+    background-color: var(--secondary-color);
+    border: none;
+}
+
+.close-button:hover {
+    filter: brightness(150%);
+    color: var(--tertiary-color);
+    background-color: var(--secondary-color);
+}
+
+.restart-button {
+    color: var(--secondary-color);
+    background-color: var(--tertiary-color);
+    border: none;
+}
+
+.restart-button:hover {
+    filter: brightness(74%);
+    color: var(--secondary-color);
+    background-color: var(--tertiary-color);
 }
 </style>

@@ -44,7 +44,16 @@ body {
   border-radius: 15px !important;
 }
 
+.el-dialog__title {
+  color: var(--tertiary-color) !important;
+  font-weight: bold;
+}
+
 .el-dialog__body {
   color: var(--tertiary-color) !important;
+}
+
+.el-dialog__headerbtn:hover .el-dialog__close path {
+  fill: var(--tertiary-color) !important;
 }
 </style>

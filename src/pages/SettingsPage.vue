@@ -115,7 +115,7 @@ h2 {
     padding: 10px;
 
     color: var(--tertiary-color);
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color-alt);
 
     transition: transform 0.5s;
 }
