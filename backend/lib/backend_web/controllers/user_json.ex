@@ -21,8 +21,8 @@ defmodule BackendWeb.UserJSON do
     %{
       id: user.id,
       username: user.username,
-      password: user.encrypted_password,
-      image: user.profile_picture,
+      # password: user.encrypted_password,
+      # image: user.profile_picture,
     }
   end
 
@@ -37,8 +37,15 @@ defmodule BackendWeb.UserJSON do
     %{
       id: user.id,
       username: user.username,
-      password: user.encrypted_password,
+      # password: user.encrypted_password,
       record: Enum.map(user.records, &RecordJSON.data/1)
+    }
+  end
+
+  def show_user_with_token(%{user: user, token: token}) do
+    %{
+      user: data(user),
+      token: token
     }
   end
 end

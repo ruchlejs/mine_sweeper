@@ -3,6 +3,7 @@ defmodule BackendWeb.UserController do
 
   alias Backend.Users
   alias Backend.Users.User
+  alias BackendWeb.Auth.Guardian
 
   action_fallback BackendWeb.FallbackController
   plug BackendWeb.Plugs.CorrectId when action in [:show, :update, :delete]
@@ -13,11 +14,12 @@ defmodule BackendWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Users.create_user(user_params) do
+    with {:ok, %User{} = user} <- Users.create_user(user_params),
+    {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/users/#{user}")
-      |> render(:show, user: user)
+      |> render(:show_user_with_token, %{user: user, token: token})
     end
   end
 

@@ -6,23 +6,19 @@ defmodule BackendWeb.LoginController do
 
   def login(conn, %{"username" => username, "password" => password}) do
     with {:ok, user} <- Accounts.check_credentials(username, password) do
-      IO.puts("test")
       case Guardian.encode_and_sign(user) do
         {:ok, token, _claims} ->
-          # Votre logique pour gérer un token valide
           json(conn, %{token: token, user_id: user.id})
 
         {:error, :secret_not_found} ->
-          # Logique pour gérer l'erreur de clé secrète manquante
           conn
           |> put_status(:unauthorized)
-          |> json(%{error: "La clé secrète est manquante"})
+          |> json(%{error: "The secret key is missing"})
 
         {:error, reason} ->
-          # Logique pour gérer d'autres erreurs
           conn
           |> put_status(:internal_server_error)
-          |> json(%{error: "Erreur inconnue: #{inspect(reason)}"})
+          |> json(%{error: "Unknown error: #{inspect(reason)}"})
       end
 
     else

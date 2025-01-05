@@ -78,7 +78,7 @@ export default {
                 const json = await response.json();
                 if (response.ok) {
                     localStorage.setItem("auth-token", json.token)
-                    localStorage.setItem("user_id", json.user_id)
+                    localStorage.setItem("user_id", json.user.id)
                     localStorage.setItem("username", this.form.username)
                     this.$router.push("Account")
                 } else {
@@ -95,8 +95,6 @@ export default {
             }
         },
         checkPassword() {
-            console.log(this.form.password)
-            console.log(this.verify_password)
             this.misMatch = this.form.password !== this.verify_password;
             if (this.verify_password && this.misMatch) {
                 this.showError = true;
