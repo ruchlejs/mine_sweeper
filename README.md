@@ -1,4 +1,4 @@
-# Minesweeper
+# Mine Sweeper
 
 This project aims to modernize the classic Minesweeper game with a fresh and engaging interface, offering enhanced gameplay experiences while retaining the essence of the original game.
 
@@ -46,7 +46,7 @@ Follow these steps to set up the project locally:
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
+   git clone git@github.com:ruchlejs/mine_sweeper.git
    cd mine_sweeper
    ```
 
@@ -104,12 +104,11 @@ Follow these steps to set up the project locally:
 
 1. Build the frontend:
    ```bash
-   npm run build --prefix frontend
+   npm run build
    ```
 2. Start the backend in production mode:
    ```bash
-   cd backend
-   MIX_ENV=prod mix phx.server
+   npm run start
    ```
 
 ## Contribution
