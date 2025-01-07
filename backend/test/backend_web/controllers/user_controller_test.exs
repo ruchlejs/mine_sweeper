@@ -6,16 +6,16 @@ defmodule BackendWeb.UserControllerTest do
   alias Backend.Users.User
 
   @create_attrs %{
-    record: 42,
-    username: "some username",
-    password: "some password"
+    username: "some_username",
+    password: "some_password",
   }
+
   @update_attrs %{
-    record: 43,
-    username: "some updated username",
-    password: "some updated password"
+    username: "updated_username",
+    password: "updated_password",
   }
-  @invalid_attrs %{record: nil, username: nil, password: nil}
+
+  @invalid_attrs %{username: nil, password: nil, profile_picture: nil}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -31,15 +31,13 @@ defmodule BackendWeb.UserControllerTest do
   describe "create user" do
     test "renders user when data is valid", %{conn: conn} do
       conn = post(conn, ~p"/api/users", user: @create_attrs)
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+      assert %{"id" => id} = json_response(conn, 201)["user"]
 
       conn = get(conn, ~p"/api/users/#{id}")
 
       assert %{
                "id" => ^id,
-               "password" => "some password",
-               "record" => 42,
-               "username" => "some username"
+               "username" => "some_username",
              } = json_response(conn, 200)["data"]
     end
 
@@ -55,14 +53,10 @@ defmodule BackendWeb.UserControllerTest do
     test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
       conn = put(conn, ~p"/api/users/#{user}", user: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
-
       conn = get(conn, ~p"/api/users/#{id}")
-
       assert %{
                "id" => ^id,
-               "password" => "some updated password",
-               "record" => 43,
-               "username" => "some updated username"
+               "username" => "updated_username",
              } = json_response(conn, 200)["data"]
     end
 
@@ -78,12 +72,10 @@ defmodule BackendWeb.UserControllerTest do
     test "deletes chosen user", %{conn: conn, user: user} do
       conn = delete(conn, ~p"/api/users/#{user}")
       assert response(conn, 204)
-
-      assert_error_sent 404, fn ->
-        get(conn, ~p"/api/users/#{user}")
+      conn = get(conn, ~p"/api/users/#{user}")
+      assert response(conn,404)
       end
     end
-  end
 
   defp create_user(_) do
     user = user_fixture()

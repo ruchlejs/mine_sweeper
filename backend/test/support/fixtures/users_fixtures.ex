@@ -12,7 +12,6 @@ defmodule Backend.UsersFixtures do
       attrs
       |> Enum.into(%{
         password: "some password",
-        record: 42,
         username: "some username"
       })
       |> Backend.Users.create_user()
