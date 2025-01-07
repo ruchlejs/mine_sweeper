@@ -88,17 +88,18 @@ Follow these steps to set up the project locally:
    ```
    This will launch both the frontend and backend servers in parallel.
 
-<!-- ## Running Tests
+## Running Tests
 
 - **Frontend:**
-  ```bash
+  <!-- ```bash
   npm run test --prefix frontend
-  ```
+  ``` -->
+  _In developpement_
 - **Backend:**
   ```bash
   cd backend
   mix test
-  ``` -->
+  ```
 
 ## Deployment
 
