@@ -1,7 +1,7 @@
 {
-  "name": "frontend",
+  "name": "moleboom",
   "version": "0.1.0",
-  "description": "Frontend for the Mine Sweeper application.",
+  "description": "Frontend for the Mine Sweeper Moleboom application.",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
