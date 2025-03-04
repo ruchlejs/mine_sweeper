@@ -71,7 +71,7 @@ Follow these steps to set up the project locally:
         GUARDIAN_SECRET_KEY="<Guardian_secret_key>"
         ```
 > [!IMPORTANT]  
-> The first three elements are only required for production configuration. In the development environment, the database can be managed locally as explain in [4](#db).
+> The first three elements are only required for production configuration. In the development environment, the database can be managed locally as explain in [3](#db).
 
    2. _Generate Secret Keys_
 
