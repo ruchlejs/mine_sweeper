@@ -70,8 +70,9 @@ Follow these steps to set up the project locally:
         SECRET_KEY_BASE=<secret_key>
         GUARDIAN_SECRET_KEY="<Guardian_secret_key>"
         ```
-> [!IMPORTANT]  
-> The first three elements are only required for production configuration. In the development environment, the database can be managed locally as explain in [3](#db).
+        
+      - ℹ️ **Note**: The first three elements are only required for production configuration. In the development environment, the database can be managed locally as explain in [iii](#db).
+
 
    2. _Generate Secret Keys_
 
@@ -85,9 +86,9 @@ Follow these steps to set up the project locally:
         ```bash
         mix phx.gen.secret
         ```
-<a id="db"></a>
 
    3. _Configure the Database_
+<a id="db"></a>
    
       - Ensure your database configuration in `config/dev.exs` matches the following setup:
 
