@@ -70,8 +70,10 @@ Follow these steps to set up the project locally:
         SECRET_KEY_BASE=<secret_key>
         GUARDIAN_SECRET_KEY="<Guardian_secret_key>"
         ```
+> [!IMPORTANT]  
+> The first three elements are only required for production configuration. In the development environment, the database can be managed locally as explain in [4](#db).
 
-   2. _Generate Secret Keys_
+   3. _Generate Secret Keys_
 
       - Generate a Guardian secret key and add it to your `.env` file:
         ```bash
@@ -81,8 +83,8 @@ Follow these steps to set up the project locally:
         ```bash
         mix phx.gen.secret
         ```
-
-   3. _Configure the Database_
+<a id="db"></a>
+   4. _Configure the Database_
 
       - Ensure your database configuration in `config/dev.exs` matches the following setup:
 
@@ -97,7 +99,7 @@ Follow these steps to set up the project locally:
           pool_size: 10
         ```
 
-   4. _Set Up the Database_
+   5. _Set Up the Database_
       - Navigate to the backend directory and run the following command to create and migrate the database:
         ```bash
         cd backend
