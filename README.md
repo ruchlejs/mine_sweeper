@@ -73,19 +73,22 @@ Follow these steps to set up the project locally:
 > [!IMPORTANT]  
 > The first three elements are only required for production configuration. In the development environment, the database can be managed locally as explain in [4](#db).
 
-   3. _Generate Secret Keys_
+   2. _Generate Secret Keys_
 
       - Generate a Guardian secret key and add it to your `.env` file:
+        
         ```bash
         mix guardian.gen.secret
         ```
       - Generate another secret key required for Phoenix:
+        
         ```bash
         mix phx.gen.secret
         ```
 <a id="db"></a>
-   4. _Configure the Database_
 
+   3. _Configure the Database_
+   
       - Ensure your database configuration in `config/dev.exs` matches the following setup:
 
         ```elixir
@@ -99,8 +102,9 @@ Follow these steps to set up the project locally:
           pool_size: 10
         ```
 
-   5. _Set Up the Database_
+   4. _Set Up the Database_
       - Navigate to the backend directory and run the following command to create and migrate the database:
+   
         ```bash
         cd backend
         mix ecto.setup
@@ -128,10 +132,12 @@ Follow these steps to set up the project locally:
 ## Deployment
 
 1. Build the frontend:
+   
    ```bash
    npm run build
    ```
 2. Start the backend in production mode:
+   
    ```bash
    npm run start
    ```
