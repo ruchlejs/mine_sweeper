@@ -40,7 +40,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :cors_plug,
-    origin:  ["http://localhost:8080"],
+    origin:  ["http://localhost:8080","https://www.moleboom.click","http://www.moleboom.click"],
     max_age: 86400,
     methods: ["GET","POST","PUT","PATCH","DELETE"]
 
