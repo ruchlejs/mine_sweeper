@@ -43,14 +43,14 @@ Follow these steps to set up the project locally:
 
 ### Steps
 
-1. Clone the repository:
+1. **Clone the repository:**
 
    ```bash
    git clone git@github.com:ruchlejs/mine_sweeper.git
    cd mine_sweeper
    ```
 
-2. Install dependencies:
+2. **Install dependencies:**
 
    ```bash
    npm install
@@ -58,31 +58,53 @@ Follow these steps to set up the project locally:
 
    This command will automatically install dependencies for both the frontend and backend using the custom script defined in the `package.json`.
 
-3. Configure the backend:
+3. **Configure the backend:**
 
-   - Create and configure your `.env` file in the `backend/` directory with database credentials and other necessary environment variables.
-   - You need to add a Guardian secret key in your `.env` file named `GUARDIAN_SECRET_KEY`. You can generate one by running:
-     ```
-     mix guardian.gen.secret
-     ```
-   - Ensure your database configuration matches the following setup (from `dev.exs`):
-     ```elixir
-     config :backend, Backend.Repo,
-       username: "postgres",
-       password: "postgres",
-       hostname: "localhost",
-       database: "backend_dev",
-       stacktrace: true,
-       show_sensitive_data_on_connection_error: true,
-       pool_size: 10
-     ```
-   - Run the following commands to set up the database:
-     ```bash
-     cd backend
-     mix ecto.setup
-     ```
+   1. _Set Up the Environment Variables_
 
-4. Start the development servers:
+      - Create and configure your `.env` file inside the `backend/` directory with the necessary database credentials and other environment variables. It should look like this:
+
+        ```ini
+        DATABASE_URL=<url_to_database>
+        PHX_HOST=<DNS_public_server>
+        SECRET_KEY_BASE=<secret_key>
+        GUARDIAN_SECRET_KEY="<Guardian_secret_key>"
+        ```
+
+   2. _Generate Secret Keys_
+
+      - Generate a Guardian secret key and add it to your `.env` file:
+        ```bash
+        mix guardian.gen.secret
+        ```
+      - Generate another secret key required for Phoenix:
+        ```bash
+        mix phx.gen.secret
+        ```
+
+   3. _Configure the Database_
+
+      - Ensure your database configuration in `config/dev.exs` matches the following setup:
+
+        ```elixir
+        config :backend, Backend.Repo,
+          username: "postgres",
+          password: "postgres",
+          hostname: "localhost",
+          database: "backend_dev",
+          stacktrace: true,
+          show_sensitive_data_on_connection_error: true,
+          pool_size: 10
+        ```
+
+   4. _Set Up the Database_
+      - Navigate to the backend directory and run the following command to create and migrate the database:
+        ```bash
+        cd backend
+        mix ecto.setup
+        ```
+
+4. **Start the development servers:**
    ```bash
    npm run dev
    ```
